@@ -8,26 +8,26 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-#include <QCAR/QCAR.h>
-#include <QCAR/CameraDevice.h>
-#include <QCAR/Renderer.h>
-#include <QCAR/VideoBackgroundConfig.h>
-#include <QCAR/Trackable.h>
-#include <QCAR/TrackableResult.h>
-#include <QCAR/MarkerResult.h>
-#include <QCAR/Tool.h>
-#include <QCAR/MarkerTracker.h>
-#include <QCAR/ImageTracker.h>
-#include <QCAR/TrackerManager.h>
-#include <QCAR/CameraCalibration.h>
-#include <QCAR/Marker.h>
-#include <QCAR/UpdateCallback.h>
-#include <QCAR/DataSet.h>
-#include <QCAR/TargetFinder.h>
-#include <QCAR/Tracker.h>
-#include <QCAR/ImageTarget.h>
-#include <QCAR/CylinderTarget.h>
-#include <QCAR/MultiTarget.h>
+#include <Android/Vuforia_Android.h>
+#include <CameraDevice.h>
+#include <Renderer.h>
+#include <VideoBackgroundConfig.h>
+#include <Trackable.h>
+#include <TrackableResult.h>
+#include <MarkerResult.h>
+#include <Tool.h>
+#include <MarkerTracker.h>
+#include <ImageTracker.h>
+#include <TrackerManager.h>
+#include <CameraCalibration.h>
+#include <Marker.h>
+#include <UpdateCallback.h>
+#include <DataSet.h>
+#include <TargetFinder.h>
+#include <Tracker.h>
+#include <ImageTarget.h>
+#include <CylinderTarget.h>
+#include <MultiTarget.h>
 
 #include "Utils.h"
 

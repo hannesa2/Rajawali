@@ -11,7 +11,7 @@ APP_ABI := armeabi-v7a
 
 # Set target Android API level to the application's minimum SDK version.
 
-APP_PLATFORM := android-8
+APP_PLATFORM := android-16
 
 # This optional variable can be defined to either 'release' or
 # 'debug'. This is used to alter the optimization level when

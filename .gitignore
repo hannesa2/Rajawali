@@ -7,7 +7,6 @@ wear/build/
 build/
 
 vuforia/src/main/obj/
-vuforia/src/main/libs/
 
 # Crashlytics configuations
 com_crashlytics_export_strings.xml

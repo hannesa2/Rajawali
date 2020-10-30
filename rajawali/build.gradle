@@ -5,8 +5,10 @@ plugins {
 android {
     compileSdkVersion rootProject.compileSdk
 
+    ndkVersion ndkSelectedVersion
+
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion rootProject.targetSdk
         versionCode getGitCommitCount()
         versionName getTag()
