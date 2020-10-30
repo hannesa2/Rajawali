@@ -5,6 +5,8 @@ plugins {
 android {
     compileSdkVersion rootProject.compileSdk
 
+    ndkVersion ndkSelectedVersion
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion rootProject.targetSdk
