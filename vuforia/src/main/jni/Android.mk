@@ -19,7 +19,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := Vuforia
 LOCAL_SRC_FILES = ../libs/$(TARGET_ARCH_ABI)/libVuforia.so
-LOCAL_EXPORT_C_INCLUDES := Vuforia-9.5.3
+LOCAL_EXPORT_C_INCLUDES := Vuforia
 include $(PREBUILT_SHARED_LIBRARY)
 
 #-----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := RajawaliVuforia
 
-LOCAL_C_INCLUDES := ./jni/Vuforia-9.5.3
+LOCAL_C_INCLUDES := ./jni/Vuforia
 
 TARGET_ARCH_ABI := armeabi-v7a
 
