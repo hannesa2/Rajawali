@@ -21,7 +21,7 @@ public class Example implements INamed, Parcelable {
         }
     };
 
-    private static final String BASE_URL = "https://github.com/Rajawali/Rajawali/tree/master/examples/src/main/java";
+    public static final String BASE_URL = "https://github.com/Rajawali/Rajawali/tree/master/examples/src/main/java";
     @StringRes
     private final int name;
     private final String url;
