@@ -32,7 +32,7 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.ISurfaceRenderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.view.ISurface;
 import org.rajawali3d.vuforia.VuforiaManager;
 import org.rajawali3d.vuforia.VuforiaManager.VuforiaConsumer;
@@ -134,11 +134,11 @@ public class VuforiaExampleFragment extends AExampleFragment implements VuforiaC
             public void onClick(View v) {
                 if (((ToggleButton) v).isChecked()) {
                     if (!mVuforiaManager.startExtendedTracking()) {
-                        RajLog.e("Could not start extended tracking");
+                        Timber.e("Could not start extended tracking");
                     }
                 } else {
                     if (!mVuforiaManager.stopExtendedTracking()) {
-                        RajLog.e("Could not stop extended tracking");
+                        Timber.e("Could not stop extended tracking");
                     }
                 }
             }
@@ -295,7 +295,7 @@ public class VuforiaExampleFragment extends AExampleFragment implements VuforiaC
                 mBob.setVisible(true);
                 mBob.setPosition(position);
                 mBob.setOrientation(orientation);
-                RajLog.d(mVuforiaManager.getMetadataNative());
+                Timber.d(mVuforiaManager.getMetadataNative());
             }
             if (trackableName.equals("stones")) {
                 mF22.setVisible(true);

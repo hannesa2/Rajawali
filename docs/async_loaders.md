@@ -29,7 +29,7 @@ private final class LoadModelRenderer extends AExampleRenderer implements IAsync
 
     @Override
     public void onModelLoadComplete(ALoader aLoader) {
-        RajLog.d(this, "Model load complete: " + aLoader);
+        Timber.d(this, "Model load complete: " + aLoader);
         final LoaderOBJ obj = (LoaderOBJ) aLoader;
         final Object3D parsedObject = obj.getParsedObject();
         parsedObject.setPosition(Vector3.ZERO);
@@ -38,7 +38,7 @@ private final class LoadModelRenderer extends AExampleRenderer implements IAsync
 
     @Override
     public void onModelLoadFailed(ALoader aLoader) {
-         RajLog.e(this, "Model load failed: " + aLoader);
+         Timber.e(this, "Model load failed: " + aLoader);
     }
 }
 ```

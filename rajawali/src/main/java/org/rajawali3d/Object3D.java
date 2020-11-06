@@ -26,7 +26,7 @@ import org.rajawali3d.math.Matrix;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.util.GLU;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.visitors.INode;
 import org.rajawali3d.visitors.INodeVisitor;
 
@@ -253,7 +253,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
 
             if (!mIsPartOfBatch) {
                 if (material == null) {
-                    RajLog.e("[" + this.getClass().getName()
+                    Timber.e("[" + this.getClass().getName()
                              + "] This object can't render because there's no material attached to it.");
 					/*throw new RuntimeException(
 							"This object can't render because there's no material attached to it.");*/
@@ -513,7 +513,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
     protected void checkGlError(String op) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            RajLog.e(op + ": glError " + error + " in class " + this.getClass().getName());
+            Timber.e(op + ": glError " + error + " in class " + this.getClass().getName());
             throw new RuntimeException(op + ": glError " + error);
         }
     }

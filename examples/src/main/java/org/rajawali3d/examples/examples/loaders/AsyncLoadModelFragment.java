@@ -18,7 +18,7 @@ import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Cube;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class AsyncLoadModelFragment extends AExampleFragment {
 
@@ -78,7 +78,7 @@ public class AsyncLoadModelFragment extends AExampleFragment {
 
         @Override
         public void onModelLoadComplete(ALoader aLoader) {
-            RajLog.d("Model load complete: " + aLoader);
+            Timber.d("Model load complete: " + aLoader);
             final LoaderOBJ obj = (LoaderOBJ) aLoader;
             final Object3D parsedObject = obj.getParsedObject();
             parsedObject.setPosition(Vector3.ZERO);
@@ -96,7 +96,7 @@ public class AsyncLoadModelFragment extends AExampleFragment {
 
         @Override
         public void onModelLoadFailed(ALoader aLoader) {
-            RajLog.e("Model load failed: " + aLoader);
+            Timber.e("Model load failed: " + aLoader);
         }
     }
 

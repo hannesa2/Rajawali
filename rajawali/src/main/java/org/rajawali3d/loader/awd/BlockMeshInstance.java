@@ -11,7 +11,7 @@ import org.rajawali3d.materials.Material;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class BlockMeshInstance extends AExportableBlockParser {
 	public void parseBlock(AWDLittleEndianDataInputStream dis, BlockHeader blockHeader) throws Exception {
 
 		// Parse scene block
-        RajLog.d("Parsing SceneGraph Block at position: " + dis.getPosition());
+        Timber.d("Parsing SceneGraph Block at position: " + dis.getPosition());
 		mSceneGraphBlock = new SceneGraphBlock();
 		mSceneGraphBlock.readGraphData(blockHeader, dis);
 

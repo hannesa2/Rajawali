@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
 
 import android.opengl.GLES20;
 
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public abstract class ACompressedTexture extends ATexture {
 

@@ -16,6 +16,8 @@ import org.rajawali3d.materials.textures.SpecularMapTexture;
 import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.SparseArray;
@@ -129,10 +131,10 @@ public class BlockSimpleMaterial extends ATextureBlockParser {
 
 		// Debug
         if (RajLog.isDebugEnabled()) {
-            RajLog.d("  Lookup Name: " + mLookupName);
-            RajLog.d("  Material Type: " + mMaterialType);
-            RajLog.d("  Shading Methods: " + mShadingMethodCount);
-            RajLog.d("  Spezial Type: " + mSpezialType);
+            Timber.d("  Lookup Name: " + mLookupName);
+            Timber.d("  Material Type: " + mMaterialType);
+            Timber.d("  Shading Methods: " + mShadingMethodCount);
+            Timber.d("  Spezial Type: " + mSpezialType);
         }
 
 		// Parse the methods

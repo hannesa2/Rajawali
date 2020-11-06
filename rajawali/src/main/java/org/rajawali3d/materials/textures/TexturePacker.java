@@ -20,7 +20,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -140,13 +140,13 @@ public class TexturePacker{
 			try {
 				texture = BitmapFactory.decodeStream(tile.stream, null, BFO);
 			} catch (Exception e) {
-				RajLog.e("Unable to read "+tile.name+" from stream.");
+				Timber.e("Unable to read "+tile.name+" from stream.");
 			}
 			tile.width = BFO.outWidth;
 			tile.height = BFO.outHeight;
 			atlasTiles[i] = tile;
 		}
-		RajLog.i("Found " + mFileCount + " images to sort and pack.");		
+		Timber.i("Found " + mFileCount + " images to sort and pack.");
 		/*
 		 * Sort bitmaps by size
 		 */
@@ -162,13 +162,13 @@ public class TexturePacker{
 			BFO.inSampleSize = 1;
 
 			while(tile.width > mAtlasWidth || tile.height > mAtlasHeight) {
-				RajLog.w("File: '" + tile.name + "' (" + tile.width + "x" + tile.height + ") is larger than the atlas (" 
+				Timber.w("File: '" + tile.name + "' (" + tile.width + "x" + tile.height + ") is larger than the atlas ("
 						+ mAtlasWidth + "x" + mAtlasHeight + ")\nResizing to " + (tile.width/2) + " " + (tile.height/2));
 				BFO.inSampleSize *= 2;
 				try {
 					texture = BitmapFactory.decodeStream(tile.stream, null, BFO);
 					} catch (Exception e) {
-						RajLog.e("Unable to read "+mFileNames[i]+" from stream.");
+						Timber.e("Unable to read "+mFileNames[i]+" from stream.");
 					}
 				tile.width = BFO.outWidth;
 				tile.height = BFO.outHeight;
@@ -215,7 +215,7 @@ public class TexturePacker{
 					tile.stream.reset();
 					tileImage = BitmapFactory.decodeStream(tile.stream, null, BFO);
 				} catch (Exception e) {
-					RajLog.e("Unable to read "+tile.name+" from stream.");
+					Timber.e("Unable to read "+tile.name+" from stream.");
 				}
 				tile.x = node.rect.left;
 				tile.y = node.rect.top;
@@ -247,11 +247,11 @@ public class TexturePacker{
 		try {
 			mFileNames = am.list(subDirName);
 		} catch (Exception e) {
-			 RajLog.e("Unable to read files from assets/"+subDirName+".");
+			 Timber.e("Unable to read files from assets/"+subDirName+".");
 		}
 		mFileCount = mFileNames.length;
 		if(mFileCount == 0)
-			RajLog.e("No assets found");
+			Timber.e("No assets found");
 		else {
 			mFileCount = mFileNames.length;		
 			InputStream[] streams = new InputStream[mFileCount];
@@ -260,7 +260,7 @@ public class TexturePacker{
 					streams[i] = am.open(subDirName+"/"+mFileNames[i]);
 					mFileNames[i] = mFileNames[i].substring(0, mFileNames[i].indexOf("."));
 				} catch (Exception e) {
-					 RajLog.e("Unable to open file: assets/"+subDirName+"/"+mFileNames[i]+".");
+					 Timber.e("Unable to open file: assets/"+subDirName+"/"+mFileNames[i]+".");
 				}
 			}
 			setStreams(streams);
@@ -274,7 +274,7 @@ public class TexturePacker{
 		mFileCount = resourceIDs.length;
 		mFileNames = new String[mFileCount];
 		if(mFileCount == 0)
-			RajLog.e("No resources found");
+			Timber.e("No resources found");
 		else{
 			InputStream[] is = new InputStream[mFileCount];
 			for(int i = 0; i < mFileCount; i++){
@@ -298,7 +298,7 @@ public class TexturePacker{
 		final int x = bitmap.getWidth();
 		final int y = bitmap.getHeight();
 		if (!((x != 0) && (x & (x - 1)) == 0) || !((y != 0) && (y & (y - 1)) == 0))
-			RajLog.w("Loaded texture "+name+" is not a power of two! Texture may fail to render on certain devices.");
+			Timber.w("Loaded texture "+name+" is not a power of two! Texture may fail to render on certain devices.");
 	}
 
 	/*

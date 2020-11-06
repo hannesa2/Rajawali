@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import com.qualcomm.QCAR.QCAR;
 import org.rajawali3d.renderer.ISurfaceRenderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.view.ISurface;
 import org.rajawali3d.view.SurfaceView;
 
@@ -104,7 +104,7 @@ public class VuforiaManager {
 
 
         protected void onPostExecute(Boolean result) {
-            RajLog.d("InitCloudRecoTask::onPostExecute: execution " + (result ? "successful" : "failed"));
+            Timber.d("InitCloudRecoTask::onPostExecute: execution " + (result ? "successful" : "failed"));
 
             if (result) {
                 // Done loading the tracker, update application status:
@@ -119,7 +119,7 @@ public class VuforiaManager {
                 } else {
                     logMessage = "Failed to initialize CloudReco.";
                 }
-                RajLog.e("InitQCARTask::onPostExecute: " + logMessage + " Exiting.");
+                Timber.e("InitQCARTask::onPostExecute: " + logMessage + " Exiting.");
                 mConsumer.onPostCloudRecoInit(result, logMessage);
             }
         }
@@ -150,7 +150,7 @@ public class VuforiaManager {
 
         protected void onPostExecute(Boolean result) {
             if (result) {
-                RajLog.d("InitQCARTask::onPostExecute: QCAR " + "initialization successful");
+                Timber.d("InitQCARTask::onPostExecute: QCAR " + "initialization successful");
                 updateApplicationStatus(APPSTATUS_INIT_TRACKER);
             } else {
                 String logMessage;
@@ -159,7 +159,7 @@ public class VuforiaManager {
                 } else {
                     logMessage = "Failed to initialize QCAR.";
                 }
-                RajLog.e("InitQCARTask::onPostExecute: " + logMessage + " Exiting.");
+                Timber.e("InitQCARTask::onPostExecute: " + logMessage + " Exiting.");
                 mConsumer.onPostQcarInit(result, logMessage);
             }
         }
@@ -246,7 +246,7 @@ public class VuforiaManager {
                     mInitQCARTask = new InitQCARTask();
                     mInitQCARTask.execute();
                 } catch (Exception e) {
-                    RajLog.e("Initializing QCAR SDK failed");
+                    Timber.e("Initializing QCAR SDK failed");
                 }
                 break;
 
@@ -260,7 +260,7 @@ public class VuforiaManager {
                         mInitCloudRecoTask = new InitCloudRecoTask();
                         mInitCloudRecoTask.execute();
                     } catch (Exception e) {
-                        RajLog.e("Failed to initialize CloudReco");
+                        Timber.e("Failed to initialize CloudReco");
                     }
                 } else {
                     updateApplicationStatus(APPSTATUS_INITED);
@@ -329,7 +329,7 @@ public class VuforiaManager {
 
     protected void initRajawali(@NonNull ISurface surface) {
         if (mRenderer == null) {
-            RajLog.e("initRajawali(): You need so set a renderer first.");
+            Timber.e("initRajawali(): You need so set a renderer first.");
         }
         surface.setSurfaceRenderer(mRenderer);
         mConsumer.initialize();
@@ -397,13 +397,13 @@ public class VuforiaManager {
     public static boolean loadLibrary(String nLibName) {
         try {
             System.loadLibrary(nLibName);
-            RajLog.i("Native library lib" + nLibName + ".so loaded");
+            Timber.i("Native library lib" + nLibName + ".so loaded");
             return true;
         } catch (UnsatisfiedLinkError ulee) {
-            RajLog.e("The library lib" + nLibName +
+            Timber.e("The library lib" + nLibName +
                      ".so could not be loaded");
         } catch (SecurityException se) {
-            RajLog.e("The library lib" + nLibName +
+            Timber.e("The library lib" + nLibName +
                      ".so was not allowed to be loaded");
         }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.MotionEvent;
 
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 /**
  * Minimal {@link Renderer} implementation which will cause no rendering to occur.
@@ -15,7 +15,7 @@ public final class NullRenderer extends Renderer {
 
     public NullRenderer(Context context) {
         super(context);
-        RajLog.w(this + ": Fragment created without renderer!");
+        Timber.w(this + ": Fragment created without renderer!");
     }
 
     @Override

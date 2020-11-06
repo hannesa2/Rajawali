@@ -17,7 +17,7 @@ import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -70,7 +70,7 @@ public class Loader3DSMax extends AMeshLoader {
 
     @Override
     public AMeshLoader parse() throws ParsingException {
-        RajLog.i("Start parsing 3DS");
+        Timber.i("Start parsing 3DS");
 
         final InputStream stream;
         if (mFile == null) {
@@ -86,7 +86,7 @@ public class Loader3DSMax extends AMeshLoader {
         try {
             readHeader(stream);
             if (mChunkID != IDENTIFIER_3DS) {
-                RajLog.e("Not a valid 3DS file");
+                Timber.e("Not a valid 3DS file");
                 return null;
             }
 
@@ -100,9 +100,9 @@ public class Loader3DSMax extends AMeshLoader {
 
             stream.close();
 
-            RajLog.i("End parsing 3DS");
+            Timber.i("End parsing 3DS");
         } catch (IOException e) {
-            RajLog.e("Error parsing");
+            Timber.e("Error parsing");
             throw new ParsingException(e);
         }
 

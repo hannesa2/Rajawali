@@ -15,7 +15,7 @@ package org.rajawali3d.animation.mesh;
 import android.os.SystemClock;
 
 import org.rajawali3d.Object3D;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.util.Stack;
 
@@ -100,7 +100,7 @@ public abstract class AAnimationObject3D extends Object3D {
 				}
 			}
 			if (start < 0) {
-				RajLog.e("Frame '" + name + "' not found");
+				Timber.e("Frame '" + name + "' not found");
 			}
 		}
 

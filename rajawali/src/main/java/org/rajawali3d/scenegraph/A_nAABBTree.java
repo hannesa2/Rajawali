@@ -23,7 +23,7 @@ import org.rajawali3d.bounds.BoundingSphere;
 import org.rajawali3d.bounds.IBoundingVolume;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 /**
  * Generic Axis Aligned Bounding Box based tree sorting hierarchy. Subclasses
@@ -157,7 +157,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * our bounds on. 
 	 */
 	protected void setBounds(IGraphNodeMember member) {
-		//RajLog.d("[" + this.getClass().getName() + "] Setting bounds based on member: " + member);
+		//Timber.d("[" + this.getClass().getName() + "] Setting bounds based on member: " + member);
 		if (mMembers.size() != 0 && mParent != null) {return;}
 		IBoundingVolume volume = member.getTransformedBoundingVolume();
 		BoundingBox bcube = null;
@@ -288,7 +288,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @param object IGraphNodeMember to be added.
 	 */
 	protected void addToMembers(IGraphNodeMember object) {
-		RajLog.d("[" + this.getClass().getName() + "] Adding object: " + object + " to members list in: " + this); 
+		Timber.d("[" + this.getClass().getName() + "] Adding object: " + object + " to members list in: " + this);
 		object.getTransformedBoundingVolume().setBoundingColor(mBoundingColor.get());
 		object.setGraphNode(this, true);
 		mMembers.add(object);
@@ -301,7 +301,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @param object IGraphNodeMember to be removed.
 	 */
 	protected void removeFromMembers(IGraphNodeMember object) {
-		RajLog.d("[" + this.getClass().getName() + "] Removing object: " + object + " from members list in: " + this);
+		Timber.d("[" + this.getClass().getName() + "] Removing object: " + object + " from members list in: " + this);
 		object.getTransformedBoundingVolume().setBoundingColor(IBoundingVolume.DEFAULT_COLOR);
 		object.setGraphNode(null, false);
 		mMembers.remove(object);
@@ -430,9 +430,9 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * Merges this child nodes into their parent node. 
 	 */
 	protected void merge() {
-		RajLog.d("[" + this.getClass().getName() + "] Merge nodes called on node: " + this);
+		Timber.d("[" + this.getClass().getName() + "] Merge nodes called on node: " + this);
 		if (mParent != null && mParent.canMerge()) {
-			RajLog.d("[" + this.getClass().getName() + "] Parent can merge...passing call up.");
+			Timber.d("[" + this.getClass().getName() + "] Parent can merge...passing call up.");
 			mParent.merge();
 		} else {
 			if (mSplit) {
@@ -455,7 +455,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * Grows the tree.
 	 */
 	protected void grow() {
-		RajLog.d("[" + this.getClass().getName() + "] Growing tree: " + this);
+		Timber.d("[" + this.getClass().getName() + "] Growing tree: " + this);
 		Vector3 min = new Vector3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
 		Vector3 max = new Vector3(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
 		//Get a full list of all the members, including members in the children
@@ -483,7 +483,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 					test_against_min = Vector3.subtractAndCreate(bs_position, rad);
 					test_against_max = Vector3.addAndCreate(bs_position, rad);
 				} else {
-					RajLog.e("[" + this.getClass().getName() + "] Received a bounding box of unknown type.");
+					Timber.e("[" + this.getClass().getName() + "] Received a bounding box of unknown type.");
 					throw new IllegalArgumentException("Received a bounding box of unknown type."); 
 				}
 			}
@@ -524,7 +524,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 		if (mParent != null) {
 			throw new IllegalStateException("Shrink can only be called by the root node.");
 		}
-		RajLog.d("[" + this.getClass().getName() + "] Checking if tree should be shrunk.");
+		Timber.d("[" + this.getClass().getName() + "] Checking if tree should be shrunk.");
 		int maxCount = 0;
 		int index_max = -1;
 		for (int i = 0; i < CHILD_COUNT; ++i) { //For each child, get the object count and find the max
@@ -543,7 +543,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 				}
 			}
 			if ((getObjectCount() - maxCount) <= mShrinkThreshold) {
-				RajLog.d("[" + this.getClass().getName() + "] Shrinking tree.");
+				Timber.d("[" + this.getClass().getName() + "] Shrinking tree.");
 				ArrayList<IGraphNodeMember> members = getAllMembersRecursively(true);
 				int members_count = members.size();
 				setBounds(index_max);
@@ -594,7 +594,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @see rajawali.scenegraph.IGraphNode#addObject(rajawali.scenegraph.IGraphNodeMember)
 	 */
 	public synchronized void addObject(IGraphNodeMember object) {
-		RajLog.d("[" + this.getClass().getName() + "] Adding object: " + object + " to octree."); 
+		Timber.d("[" + this.getClass().getName() + "] Adding object: " + object + " to octree.");
 		//TODO: Handle recursive add posibility
 
 		if (mParent == null) {
@@ -638,7 +638,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @see rajawali.scenegraph.IGraphNode#removeObject(rajawali.ATransformable3D)
 	 */
 	public synchronized void removeObject(IGraphNodeMember object) {
-		RajLog.d("[" + this.getClass().getName() + "] Removing object: " + object + " from octree.");
+		Timber.d("[" + this.getClass().getName() + "] Removing object: " + object + " from octree.");
 		//TODO: Handle recursive add posibility
 		//Retrieve the container object
 		IGraphNode container = object.getGraphNode();
@@ -675,7 +675,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @see rajawali.scenegraph.IGraphNode#updateObject(rajawali.ATransformable3D)
 	 */
 	public synchronized void updateObject(IGraphNodeMember object) {
-		/*RajLog.d("[" + this.getClass().getName() + "] Updating object: " + object + 
+		/*Timber.d("[" + this.getClass().getName() + "] Updating object: " + object +
 				"[" + object.getClass().getName() + "] in octree.");*/
 		if (mParent == null && getObjectCount() == 1) { //If there is only one object, we should just follow it
 			setBounds(object);			
@@ -683,7 +683,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 		}
 		IGraphNode container = object.getGraphNode(); //Get the container node
 		handleRecursiveUpdate((A_nAABBTree) container, object);
-		RajLog.e("Node: " + this + " Object Container: " + container);
+		Timber.e("Node: " + this + " Object Container: " + container);
 	}
 
 	/**
@@ -694,7 +694,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @param object IGraphNodeMember which is being updated.
 	 */
 	protected void handleRecursiveUpdate(final A_nAABBTree container, IGraphNodeMember object) {
-		//RajLog.i("Rajawali", "Handling recursive update potential.");
+		//Timber.i("Rajawali", "Handling recursive update potential.");
 		A_nAABBTree local_container = container;
 		boolean updated = false;
 		while (!updated) {
@@ -714,36 +714,36 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 						}
 					}
 					if (fits_in_child >= 0) { //If a single child was marked
-						RajLog.i("Fits in a single child.");
+						Timber.i("Fits in a single child.");
 						local_container.removeFromMembers(object);
 						mChildren[fits_in_child].internalAddObject(object);
 						updated = true;
 					} else { //TODO: WORKS
-						RajLog.i("Fits in multiple children, leaving in place.");
+						Timber.i("Fits in multiple children, leaving in place.");
 						updated = true;
 					}
 				} else {
-					RajLog.i("No children so we are leaving in same node.");
+					Timber.i("No children so we are leaving in same node.");
 					if (!object.isInGraph()) {
-						RajLog.i("Removing from outside graph and moving to inside root.");
+						Timber.i("Removing from outside graph and moving to inside root.");
 						local_container.mOutside.remove(object);
 						local_container.internalAddObject(object);
 					}
 					updated = true;
 				}
 			} else {
-				//RajLog.v("Rajawali", "OUTSIDE");
+				//Timber.v("Rajawali", "OUTSIDE");
 				if (local_container.mParent == null) { //TODO: WORKS
-					//RajLog.v("Rajawali", "OUTSIDE");
-					//RajLog.i("Rajawali", "Container is root node. Adding to outside.");
+					//Timber.v("Rajawali", "OUTSIDE");
+					//Timber.i("Rajawali", "Container is root node. Adding to outside.");
 					if (object.isInGraph()) {
 						local_container.removeFromMembers(object);
 						local_container.addToOutside(object);
 					}
-					//RajLog.e("Rajawali", "Node after addToOutside: " + object.getGraphNode());
+					//Timber.e("Rajawali", "Node after addToOutside: " + object.getGraphNode());
 					updated = true;
 				} else {
-					RajLog.i("Container is not root (" + local_container + "). Moving search up a level.");
+					Timber.i("Container is not root (" + local_container + "). Moving search up a level.");
 					local_container = local_container.mParent;
 				}
 			}

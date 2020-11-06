@@ -10,7 +10,7 @@ import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.ScreenQuad;
 import org.rajawali3d.renderer.RenderTarget;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -47,7 +47,7 @@ public abstract class VuforiaRenderer extends Renderer {
 
 	@Override
 	public void onRenderSurfaceCreated(EGLConfig config, GL10 gl, int width, int height) {
-        RajLog.i("onRenderSurfaceCreated");
+        Timber.i("onRenderSurfaceCreated");
 		super.onRenderSurfaceCreated(config, gl, width, height);
 		initRendering();
 		QCAR.onSurfaceCreated();
@@ -55,7 +55,7 @@ public abstract class VuforiaRenderer extends Renderer {
 
 	@Override
 	public void onRenderSurfaceSizeChanged(GL10 gl, int width, int height) {
-        RajLog.i("onRenderSurfaceSizeChanged " + width + ", " + height);
+        Timber.i("onRenderSurfaceSizeChanged " + width + ", " + height);
 		super.onRenderSurfaceSizeChanged(gl, width, height);
 		updateRendering(width, height);
 		QCAR.onSurfaceChanged(width, height);

@@ -11,7 +11,7 @@ import org.rajawali3d.examples.examples.postprocessing.GaussianBlurFilterFragmen
 import org.rajawali3d.examples.examples.postprocessing.MultiPassFragment.MultiPassRenderer;
 import org.rajawali3d.examples.examples.ui.CanvasTextFragment.CanvasTextRenderer;
 import org.rajawali3d.renderer.ISurfaceRenderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.view.ISurface;
 import org.rajawali3d.wallpaper.Wallpaper;
 
@@ -24,9 +24,9 @@ public class RajawaliExampleWallpaper extends Wallpaper {
 
     @Override
     public Engine onCreateEngine() {
-        RajLog.v("Creating wallpaper engine.");
+        Timber.v("Creating wallpaper engine.");
         final int renderer = Integer.parseInt(Preferences.getInstance(this).getWallpaperRendererPreference());
-            RajLog.i("Creating wallpaper engine: " + renderer);
+            Timber.i("Creating wallpaper engine: " + renderer);
             // TODO: I'm sure there is a better way to do this
             switch (renderer) {
                 case 0:

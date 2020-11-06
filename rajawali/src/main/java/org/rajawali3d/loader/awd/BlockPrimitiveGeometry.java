@@ -6,6 +6,8 @@ import org.rajawali3d.loader.LoaderAWD.BlockHeader;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 /**
  * 
  * @author Ian Thomas (toxicbakery@gmail.com)
@@ -38,8 +40,8 @@ public class BlockPrimitiveGeometry extends ABaseObjectBlockParser {
 		mPrimitiveType = dis.readUnsignedByte();
 
         if (RajLog.isDebugEnabled()) {
-            RajLog.d("  Lookup Name: " + mLookupName);
-            RajLog.d("  Primitive Type: " + mPrimitiveType);
+            Timber.d("  Lookup Name: " + mLookupName);
+            Timber.d("  Primitive Type: " + mPrimitiveType);
         }
 
 		// Read primitive properties and construct a new base object determined by the primitive type
