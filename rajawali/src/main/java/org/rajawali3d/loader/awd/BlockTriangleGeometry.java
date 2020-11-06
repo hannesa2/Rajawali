@@ -9,7 +9,7 @@ import org.rajawali3d.animation.mesh.SkeletalAnimationObject3D;
 import org.rajawali3d.loader.LoaderAWD.AWDLittleEndianDataInputStream;
 import org.rajawali3d.loader.LoaderAWD.BlockHeader;
 import org.rajawali3d.loader.ParsingException;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.util.ArrayList;
 
@@ -77,9 +77,9 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 		mBaseObjects = new Object3D[mSubGeometryCount];
 
 		// Debug
-        if (RajLog.isDebugEnabled()) {
-            RajLog.d("  Lookup Name: " + mLookupName);
-            RajLog.d("  Sub Geometry Count: " + mSubGeometryCount);
+        if (Timber.isDebugEnabled()) {
+            Timber.d("  Lookup Name: " + mLookupName);
+            Timber.d("  Sub Geometry Count: " + mSubGeometryCount);
         }
 
 		// Determine the precision for the block
@@ -124,8 +124,8 @@ public class BlockTriangleGeometry extends ABaseObjectBlockParser {
 				long subLength = dis.readUnsignedInt();
 				long subEnd = dis.getPosition() + subLength;
 
-                if (RajLog.isDebugEnabled())
-                    RajLog.d("   Mesh Data: t:" + type + " tf:" + typeF + " l:" + subLength + " ls:" + dis.getPosition() + " le:" + subEnd);
+                if (Timber.isDebugEnabled())
+                    Timber.d("   Mesh Data: t:" + type + " tf:" + typeF + " l:" + subLength + " ls:" + dis.getPosition() + " le:" + subEnd);
 
 				// Process the mesh data by type
 				switch (type) {

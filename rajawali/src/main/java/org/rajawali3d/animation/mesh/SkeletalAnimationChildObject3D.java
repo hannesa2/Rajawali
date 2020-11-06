@@ -24,7 +24,7 @@ import org.rajawali3d.materials.plugins.SkeletalAnimationMaterialPlugin;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector2;
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -159,7 +159,7 @@ public class SkeletalAnimationChildObject3D extends AAnimationObject3D {
 	public void play() {
 		if (mSequence == null)
 		{
-			RajLog.e("[BoneAnimationObject3D.play()] Cannot play animation. No sequence was set.");
+			Timber.e("[BoneAnimationObject3D.play()] Cannot play animation. No sequence was set.");
 			return;
 		}
 		super.play();

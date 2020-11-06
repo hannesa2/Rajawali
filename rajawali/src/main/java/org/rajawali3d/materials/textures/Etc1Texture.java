@@ -18,7 +18,7 @@ import android.graphics.Bitmap;
 import android.opengl.ETC1;
 import android.opengl.ETC1Util;
 
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,7 +89,7 @@ public class Etc1Texture extends ACompressedTexture {
                 setHeight(texture.getHeight());
                 setCompressionFormat(ETC1.ETC1_RGB8_OES);
             } catch (IOException e) {
-                RajLog.e(e.getMessage());
+                Timber.e(e.getMessage());
                 e.printStackTrace();
             }
         } else if(mResourceIds != null) {
@@ -109,7 +109,7 @@ public class Etc1Texture extends ACompressedTexture {
                 setHeight(mip_0_height);
                 setCompressionFormat(ETC1.ETC1_RGB8_OES);
             } catch (IOException e) {
-                RajLog.e(e.getMessage());
+                Timber.e(e.getMessage());
                 e.printStackTrace();
             }
 
@@ -184,20 +184,20 @@ public class Etc1Texture extends ACompressedTexture {
         try {
             texture = ETC1Util.createTexture(compressedTexture);
         } catch (IOException e) {
-            RajLog.e("addEtc1Texture: " + e.getMessage());
+            Timber.e("addEtc1Texture: " + e.getMessage());
         } finally {
             if (texture == null) {
                 setBitmap(fallbackTexture);
 
-                if (RajLog.isDebugEnabled())
-                    RajLog.d("Falling back to uncompressed texture");
+                if (Timber.isDebugEnabled())
+                    Timber.d("Falling back to uncompressed texture");
             } else {
                 setByteBuffer(texture.getData());
                 setWidth(texture.getWidth());
                 setHeight(texture.getHeight());
 
-                if (RajLog.isDebugEnabled())
-                    RajLog.d("ETC1 texture load successful");
+                if (Timber.isDebugEnabled())
+                    Timber.d("ETC1 texture load successful");
             }
         }
     }

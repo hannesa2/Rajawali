@@ -54,7 +54,7 @@ public final class RawShaderLoader {
 			isr.close();
 			br.close();
 		} catch (Exception e) {
-			RajLog.e("Failed to read material: " + e.getMessage());
+			Timber.e("Failed to read material: " + e.getMessage());
 			e.printStackTrace();
 		}
 

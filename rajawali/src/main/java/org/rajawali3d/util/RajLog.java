@@ -93,7 +93,7 @@ public final class RajLog {
         sb.append("-=-=-=- /OpenGL Information -=-=-=-\n");
         sb.append(Capabilities.getInstance().toString());
 
-        RajLog.i(sb.toString());
+        Timber.i(sb.toString());
     }
 
     /**

@@ -13,7 +13,7 @@
 package org.rajawali3d.materials.shaders;
 
 import android.opengl.GLES20;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.util.RawShaderLoader;
 
 import java.util.ArrayList;
@@ -619,7 +619,7 @@ public abstract class AShader extends AShaderBase {
 
 	protected int getUniformLocation(int programHandle, String name) {
 		int result = GLES20.glGetUniformLocation(programHandle, name);
-        if (result < 0 && RajLog.isDebugEnabled()) RajLog.e("Getting location of uniform: " + name + " returned -1!");
+        if (result < 0 && Timber.isDebugEnabled()) Timber.e("Getting location of uniform: " + name + " returned -1!");
 		return result;
 	}
 

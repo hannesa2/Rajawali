@@ -41,7 +41,7 @@ import org.rajawali3d.loader.AMeshLoader;
 import org.rajawali3d.loader.IAnimatedMeshLoader;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class LoaderMD5Mesh extends AMeshLoader implements IAnimatedMeshLoader {
 
@@ -99,7 +99,7 @@ public class LoaderMD5Mesh extends AMeshLoader implements IAnimatedMeshLoader {
 			try {
 				buffer = new BufferedReader(new FileReader(mFile));
 			} catch (FileNotFoundException e) {
-				RajLog.e("[" + getClass().getCanonicalName() + "] Could not find file.");
+				Timber.e("[" + getClass().getCanonicalName() + "] Could not find file.");
 				throw new ParsingException(e);
 			}
 		}
@@ -115,8 +115,8 @@ public class LoaderMD5Mesh extends AMeshLoader implements IAnimatedMeshLoader {
 				String type = parts.nextToken();
 
 				if (type.equalsIgnoreCase(MD5_VERSION)) {
-                    if (RajLog.isDebugEnabled())
-					    RajLog.d("MD5 Version: " + parts.nextToken());
+                    if (Timber.isDebugEnabled())
+					    Timber.d("MD5 Version: " + parts.nextToken());
 				} else if (type.equalsIgnoreCase(COMMAND_LINE)) {} else if (type.equalsIgnoreCase(NUM_JOINTS)) {
 					mNumJoints = Integer.parseInt(parts.nextToken());
 					mJoints = new SkeletonJoint[mNumJoints];

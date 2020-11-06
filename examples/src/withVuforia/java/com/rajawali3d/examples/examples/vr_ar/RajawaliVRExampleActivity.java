@@ -4,7 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.vr.VRActivity;
 
 public class RajawaliVRExampleActivity extends VRActivity {
@@ -34,7 +34,7 @@ public class RajawaliVRExampleActivity extends VRActivity {
      */
     @Override
     public void onCardboardTrigger() {
-        RajLog.i("onCardboardTrigger");
+        Timber.i("onCardboardTrigger");
     }
 
     @Override

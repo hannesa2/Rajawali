@@ -41,7 +41,7 @@ import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.Renderer;
 import org.rajawali3d.scene.Scene;
 import org.rajawali3d.util.LittleEndianDataInputStream;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -201,13 +201,13 @@ public class LoaderAWD extends AMeshLoader {
             final long endOfFile = dis.getPosition() + awdHeaderBodyLength;
 
             // Debug Headers
-            if (RajLog.isDebugEnabled()) {
-                RajLog.d("AWD Header Data");
-                RajLog.d(" Version: " + awdHeaderVersion + "." + awdHeaderRevision);
-                RajLog.d(" Flags: " + awdHeaderFlags);
-                RajLog.d(" Compression: " + getCompression());
-                RajLog.d(" Body Length: " + awdHeaderBodyLength);
-                RajLog.d(" End Of File: " + endOfFile);
+            if (Timber.isDebugEnabled()) {
+                Timber.d("AWD Header Data");
+                Timber.d(" Version: " + awdHeaderVersion + "." + awdHeaderRevision);
+                Timber.d(" Flags: " + awdHeaderFlags);
+                Timber.d(" Compression: " + getCompression());
+                Timber.d(" Body Length: " + awdHeaderBodyLength);
+                Timber.d(" End Of File: " + endOfFile);
             }
 
             // Check streaming
@@ -251,8 +251,8 @@ public class LoaderAWD extends AMeshLoader {
                         blockDataList.put(blockHeader.id, blockHeader);
 
                     // Debug
-                    if (RajLog.isDebugEnabled())
-                        RajLog.d(blockHeader.toString());
+                    if (Timber.isDebugEnabled())
+                        Timber.d(blockHeader.toString());
 
                     // Look for the Block Parser class.
                     final Class<? extends ABlockParser> blockClass = blockParserClassesMap
@@ -261,8 +261,8 @@ public class LoaderAWD extends AMeshLoader {
 
                     // Skip unknown blocks
                     if (blockClass == null) {
-                        if (RajLog.isDebugEnabled())
-                            RajLog.d(" Skipping unknown block " + blockHeader.namespace + " " + blockHeader.type);
+                        if (Timber.isDebugEnabled())
+                            Timber.d(" Skipping unknown block " + blockHeader.namespace + " " + blockHeader.type);
                         dis.skip(blockHeader.dataLength);
                         continue;
                     }
@@ -277,17 +277,17 @@ public class LoaderAWD extends AMeshLoader {
                     // Add the parser to the list of block parsers
                     blockParsers.add(parser);
 
-                    if (RajLog.isDebugEnabled()) {
-                        RajLog.d(" Parsing block with: " + parser.getClass().getSimpleName());
-                        RajLog.d(" Starting at position: " + dis.getPosition());
+                    if (Timber.isDebugEnabled()) {
+                        Timber.d(" Parsing block with: " + parser.getClass().getSimpleName());
+                        Timber.d(" Starting at position: " + dis.getPosition());
                     }
 
                     // Begin parsing
                     try {
                         parser.parseBlock(dis, blockHeader);
                     } catch (NotImplementedParsingException e) {
-                        if (RajLog.isDebugEnabled())
-                            RajLog.d(" Skipping block as not implemented.");
+                        if (Timber.isDebugEnabled())
+                            Timber.d(" Skipping block as not implemented.");
                         dis.skip(blockHeader.blockEnd - dis.getPosition());
                     }
 
@@ -300,8 +300,8 @@ public class LoaderAWD extends AMeshLoader {
                 } while (dis.getPosition() < endOfFile);
 
                 // End of blocks reached
-                if (RajLog.isDebugEnabled())
-                    RajLog.d("End of blocks reached.");
+                if (Timber.isDebugEnabled())
+                    Timber.d("End of blocks reached.");
             } catch (IOException e) {
                 throw new ParsingException("Buffer overrun; unexpected end of file.", e);
             }
@@ -313,7 +313,7 @@ public class LoaderAWD extends AMeshLoader {
 
         onBlockParsingFinished(blockParsers);
 
-        RajLog.d("Finished Parsing in " + (SystemClock.elapsedRealtime() - startTime));
+        Timber.d("Finished Parsing in " + (SystemClock.elapsedRealtime() - startTime));
 
         return this;
     }
@@ -641,8 +641,8 @@ public class LoaderAWD extends AMeshLoader {
 
             // Skip properties if null is passed
             if (expected == null) {
-                if (RajLog.isDebugEnabled())
-                    RajLog.d("  Skipping property values.");
+                if (Timber.isDebugEnabled())
+                    Timber.d("  Skipping property values.");
                 skip(propsLength);
             }
 
@@ -661,7 +661,7 @@ public class LoaderAWD extends AMeshLoader {
                 propLength = readUnsignedInt();
 
                 if (mPosition + propLength > endPosition) {
-                    RajLog.e("Unexpected properties length. Properties attemped to read past total properties length.");
+                    Timber.e("Unexpected properties length. Properties attemped to read past total properties length.");
 
                     if (endPosition > mPosition)
                         skip(endPosition - mPosition);
@@ -712,7 +712,7 @@ public class LoaderAWD extends AMeshLoader {
                 attrLength = readUnsignedInt();
 
                 if (mPosition + attrLength > endPosition) {
-                    RajLog.e("Unexpected attribute length. Attributes attempted to read past total attributes length.");
+                    Timber.e("Unexpected attribute length. Attributes attempted to read past total attributes length.");
                     if (endPosition > mPosition)
                         skip(endPosition - mPosition);
 
@@ -763,7 +763,7 @@ public class LoaderAWD extends AMeshLoader {
                     attrValue = mPropPrecision ? readDouble() : readFloat();
                     break;
                 default:
-                    RajLog.e("Skipping unknown attribute (" + attrType + ")");
+                    Timber.e("Skipping unknown attribute (" + attrType + ")");
                     skip(attrLength);
                     break;
             }

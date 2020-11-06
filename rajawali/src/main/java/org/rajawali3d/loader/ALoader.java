@@ -16,7 +16,7 @@ import android.content.res.Resources;
 import android.os.Environment;
 import org.rajawali3d.renderer.Renderer;
 import org.rajawali3d.util.LittleEndianDataInputStream;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -75,8 +75,8 @@ public abstract class ALoader implements ILoader {
 		if (mFile == null && mFileOnSDCard != null)
 			mFile = new File(Environment.getExternalStorageDirectory(), mFileOnSDCard);
 
-		if (mFile != null && RajLog.isDebugEnabled())
-			RajLog.d("Parsing: " + mFile.getAbsolutePath());
+		if (mFile != null && Timber.isDebugEnabled())
+			Timber.d("Parsing: " + mFile.getAbsolutePath());
 		return this;
 	}
 

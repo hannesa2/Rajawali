@@ -59,6 +59,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$extJUnitVersion"
     androidTestImplementation "androidx.test.ext:truth:$extJUnitVersion"
     androidTestImplementation "com.google.truth:truth:1.0.1"
+    api "com.github.AppDevNext.Logcat:LogcatCore:2.1.1"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
