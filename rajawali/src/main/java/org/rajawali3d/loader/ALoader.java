@@ -18,6 +18,8 @@ import org.rajawali3d.renderer.Renderer;
 import org.rajawali3d.util.LittleEndianDataInputStream;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -76,7 +78,7 @@ public abstract class ALoader implements ILoader {
 			mFile = new File(Environment.getExternalStorageDirectory(), mFileOnSDCard);
 
 		if (mFile != null && RajLog.isDebugEnabled())
-			RajLog.d("Parsing: " + mFile.getAbsolutePath());
+			Timber.d("Parsing: " + mFile.getAbsolutePath());
 		return this;
 	}
 

@@ -11,6 +11,8 @@ import android.os.Build.VERSION_CODES;
 import org.rajawali3d.materials.textures.utils.ETC2Util;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -120,7 +122,7 @@ public class Etc2Texture extends ACompressedTexture {
             setHeight(texture.getHeight());
             setCompressionFormat(texture.getCompressionFormat());
         } catch (IOException e) {
-            RajLog.e(e.getMessage());
+            Timber.e(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -152,7 +154,7 @@ public class Etc2Texture extends ACompressedTexture {
             setWidth(mip_0_width);
             setHeight(mip_0_height);
         } catch (IOException e) {
-            RajLog.e(e.getMessage());
+            Timber.e(e.getMessage());
             e.printStackTrace();
         }
 
@@ -165,13 +167,13 @@ public class Etc2Texture extends ACompressedTexture {
         try {
             texture = ETC2Util.createTexture(compressedTexture);
         } catch (IOException e) {
-            RajLog.e("addEtc2Texture:" + e.getMessage());
+            Timber.e("addEtc2Texture:" + e.getMessage());
         } finally {
             if (texture == null) {
                 setBitmap(fallbackTexture);
 
                 if (RajLog.isDebugEnabled())
-                    RajLog.d("Falling back to ETC1 texture from fallback texture.");
+                    Timber.d("Falling back to ETC1 texture from fallback texture.");
             } else {
                 setCompressionFormat(texture.getCompressionFormat());
                 setByteBuffer(texture.getData());
@@ -179,7 +181,7 @@ public class Etc2Texture extends ACompressedTexture {
                 setHeight(texture.getHeight());
 
                 if (RajLog.isDebugEnabled())
-                    RajLog.d("ETC2 texture load successful");
+                    Timber.d("ETC2 texture load successful");
             }
         }
     }

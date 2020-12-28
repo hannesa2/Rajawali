@@ -16,7 +16,7 @@ import android.opengl.GLES20;
 
 import org.rajawali3d.Geometry3D;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 
 /**
@@ -76,12 +76,12 @@ public abstract class Plugin implements IRendererPlugin {
 			int[] linkStatus = new int[1];
 			GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
 			if (linkStatus[0] != GLES20.GL_TRUE) {
-				RajLog.e("Could not link program in " + getClass().getCanonicalName() +": ");
-				RajLog.e(GLES20.glGetProgramInfoLog(program));
-				RajLog.d("-=-=-= VERTEX SHADER =-=-=-");
-				RajLog.d(mVertexShader);
-				RajLog.d("-=-=-= FRAGMENT SHADER =-=-=-");
-				RajLog.d(mFragmentShader);
+				Timber.e("Could not link program in " + getClass().getCanonicalName() +": ");
+				Timber.e(GLES20.glGetProgramInfoLog(program));
+				Timber.d("-=-=-= VERTEX SHADER =-=-=-");
+				Timber.d(mVertexShader);
+				Timber.d("-=-=-= FRAGMENT SHADER =-=-=-");
+				Timber.d(mFragmentShader);
 				GLES20.glDeleteProgram(program);
 				program = 0;
 			}
@@ -115,8 +115,8 @@ public abstract class Plugin implements IRendererPlugin {
 			GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
 
 			if (compiled[0] == 0) {
-				RajLog.e("[" +getClass().getName()+ "] Could not compile " + (shaderType == GLES20.GL_FRAGMENT_SHADER ? "fragment" : "vertex") + " shader:");
-				RajLog.e("Shader log: " + GLES20.glGetShaderInfoLog(shader));
+				Timber.e("[" +getClass().getName()+ "] Could not compile " + (shaderType == GLES20.GL_FRAGMENT_SHADER ? "fragment" : "vertex") + " shader:");
+				Timber.e("Shader log: " + GLES20.glGetShaderInfoLog(shader));
 				GLES20.glDeleteShader(shader);
 				shader = 0;
 			}
@@ -148,7 +148,7 @@ public abstract class Plugin implements IRendererPlugin {
 		mFragmentShader = fragmentShader;
 		mProgram = createProgram(vertexShader, fragmentShader);
 		if (mProgram == 0) {
-			RajLog.e("Failed to create program");
+			Timber.e("Failed to create program");
 			return;
 		}
 

@@ -25,7 +25,7 @@ import org.rajawali3d.primitives.Sphere;
 import org.rajawali3d.util.GLU;
 import org.rajawali3d.util.ObjectColorPicker;
 import org.rajawali3d.util.OnObjectPickedListener;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -155,7 +155,7 @@ public class TouchAndDragFragment extends AExampleFragment implements
 
 		@Override
 		public void onNoObjectPicked() {
-			RajLog.w("No object picked!");
+			Timber.w("No object picked!");
 		}
 
 		public void moveSelectedObject(float x, float y) {

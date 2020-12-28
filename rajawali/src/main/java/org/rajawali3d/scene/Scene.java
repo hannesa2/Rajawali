@@ -44,7 +44,7 @@ import org.rajawali3d.scenegraph.Octree;
 import org.rajawali3d.view.ISurface;
 import org.rajawali3d.util.ObjectColorPicker;
 import org.rajawali3d.util.ObjectColorPicker.ColorPickerInfo;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -262,7 +262,7 @@ public class Scene {
 		final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Adding camera: " + camera);
+				Timber.d("AFrameTask - Adding camera: " + camera);
                 mCameras.add(camera);
                 if (mSceneGraph != null) {
                     //mSceneGraph.addObject(camera); //TODO: Uncomment
@@ -282,7 +282,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Adding camera collection: " + cameras);
+				Timber.d("AFrameTask - Adding camera collection: " + cameras);
                 mCameras.addAll(cameras);
                 if (mSceneGraph != null) {
                     //mSceneGraph.addObject(camera); //TODO: Uncomment
@@ -304,7 +304,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Removing camera: " + camera);
+				Timber.d("AFrameTask - Removing camera: " + camera);
                 mCameras.remove(camera);
                 if (mSceneGraph != null) {
                     //mSceneGraph.removeObject(camera); //TODO: Uncomment
@@ -323,7 +323,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Clearing all cameras.");
+				Timber.d("AFrameTask - Clearing all cameras.");
                 mCameras.clear();
             }
         };
@@ -346,7 +346,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Replacing camera at location " + location + " with: " + camera);
+				Timber.d("AFrameTask - Replacing camera at location " + location + " with: " + camera);
                 final Camera old = mCameras.set(location, camera);
                 if (mSceneGraph != null) {
                     //mSceneGraph.removeObject(old);
@@ -371,7 +371,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Replacing camera " + oldCamera + " with " + newCamera);
+				Timber.d("AFrameTask - Replacing camera " + oldCamera + " with " + newCamera);
                 mCameras.set(mCameras.indexOf(oldCamera), newCamera);
                 if (mSceneGraph != null) {
                     //mSceneGraph.removeObject(oldCamera);
@@ -433,7 +433,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Replacing child at location " + location + " with " + child);
+				Timber.d("AFrameTask - Replacing child at location " + location + " with " + child);
                 final Object3D old = mChildren.set(location, child);
                 if (mSceneGraph != null) {
                     //mSceneGraph.removeObject(old);
@@ -455,7 +455,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Replacing child " + oldChild + " with " + newChild);
+				Timber.d("AFrameTask - Replacing child " + oldChild + " with " + newChild);
                 mChildren.set(mChildren.indexOf(oldChild), newChild);
                 if (mSceneGraph != null) {
                     //mSceneGraph.removeObject(oldChild);
@@ -477,7 +477,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Adding child: " + child);
+				Timber.d("AFrameTask - Adding child: " + child);
                 mChildren.add(child);
                 if (mSceneGraph != null) {
                     //mSceneGraph.addObject(child); //TODO: Uncomment
@@ -497,7 +497,7 @@ public class Scene {
      * @return True if the child was successfully queued for addition.
      */
 	public boolean addChildAt(final Object3D child, final int index) {
-		RajLog.d("AFrameTask - Adding child " + child + " at " + index);
+		Timber.d("AFrameTask - Adding child " + child + " at " + index);
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
@@ -517,7 +517,7 @@ public class Scene {
 	 * @return boolean True if the addition was successfully queued.
 	 */
 	public boolean addChildren(final Collection<Object3D> children) {
-		RajLog.d("AFrameTask - Adding children: " + children);
+		Timber.d("AFrameTask - Adding children: " + children);
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
@@ -575,7 +575,7 @@ public class Scene {
 	 * @return True if the light was successfully queued for addition.
 	 */
 	public boolean addLight(final ALight light) {
-		RajLog.d("AFrameTask - Adding light " + light);
+		Timber.d("AFrameTask - Adding light " + light);
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
@@ -691,7 +691,7 @@ public class Scene {
 	 * @return boolean True if the registration was queued successfully.
 	 */
 	public boolean registerAnimation(final Animation anim) {
-		RajLog.d("AFrameTask - Adding animation: " + anim);
+		Timber.d("AFrameTask - Adding animation: " + anim);
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
@@ -777,7 +777,7 @@ public class Scene {
         final AFrameTask task = new AFrameTask() {
             @Override
             protected void doTask() {
-				RajLog.d("AFrameTask - Adding frame callback " + callback);
+				Timber.d("AFrameTask - Adding frame callback " + callback);
                 if (callback.callPreFrame()) mPreCallbacks.add(callback);
                 if (callback.callPreDraw()) mPreDrawCallbacks.add(callback);
                 if (callback.callPostFrame()) mPostCallbacks.add(callback);

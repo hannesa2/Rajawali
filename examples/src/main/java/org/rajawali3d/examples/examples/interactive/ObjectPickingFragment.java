@@ -20,7 +20,7 @@ import org.rajawali3d.materials.methods.DiffuseMethod;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.util.ObjectColorPicker;
 import org.rajawali3d.util.OnObjectPickedListener;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class ObjectPickingFragment extends AExampleFragment implements OnTouchListener {
 
@@ -147,7 +147,7 @@ public class ObjectPickingFragment extends AExampleFragment implements OnTouchLi
 
         @Override
         public void onNoObjectPicked() {
-            RajLog.w("No object picked!");
+            Timber.w("No object picked!");
         }
 
     }

@@ -8,7 +8,7 @@ android {
     compileSdkVersion rootProject.compileSdk
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion rootProject.targetSdk
         versionCode getGitCommitCount()
         versionName getTag()

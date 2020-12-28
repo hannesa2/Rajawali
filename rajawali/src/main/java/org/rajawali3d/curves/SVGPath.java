@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import android.content.Context;
 
 /**
@@ -301,7 +301,7 @@ public class SVGPath {
 			mCurrentCommandIsRelative = command == 's';
 			break;
 		default:
-			RajLog.e("SVG command not recognized: " + command);
+			Timber.e("SVG command not recognized: " + command);
 		}
 	}
 }

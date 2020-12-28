@@ -21,7 +21,7 @@ plugins {
 }
 
 ext {
-    minSdk = 15
+    minSdk = 16
     targetSdk = 29
     compileSdk = 29
     wear = "2.8.1"

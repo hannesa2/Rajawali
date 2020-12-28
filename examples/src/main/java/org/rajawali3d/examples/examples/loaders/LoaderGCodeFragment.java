@@ -18,7 +18,7 @@ import org.rajawali3d.examples.examples.AExampleFragment;
 import org.rajawali3d.loader.LoaderGCode;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.primitives.Line3D;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class LoaderGCodeFragment extends AExampleFragment {
 
@@ -64,7 +64,7 @@ public class LoaderGCodeFragment extends AExampleFragment {
                     getCurrentScene().addChild(gCode3D);
                 }
             } catch (Exception e) {
-                RajLog.e("error init'ing gcode GL scene:\n" + Log.getStackTraceString(e));
+                Timber.e("error init'ing gcode GL scene:\n" + Log.getStackTraceString(e));
             }
         }
     }
