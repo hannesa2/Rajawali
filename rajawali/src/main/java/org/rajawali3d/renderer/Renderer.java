@@ -42,7 +42,6 @@ import org.rajawali3d.scene.Scene;
 import org.rajawali3d.util.Capabilities;
 import org.rajawali3d.util.ObjectColorPicker;
 import org.rajawali3d.util.OnFPSUpdateListener;
-import timber.log.Timber;
 import org.rajawali3d.util.RawShaderLoader;
 import org.rajawali3d.view.ISurface;
 
@@ -65,6 +64,8 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.opengles.GL10;
+
+import timber.log.Timber;
 
 public abstract class Renderer implements ISurfaceRenderer {
     protected static final int AVAILABLE_CORES = Runtime.getRuntime().availableProcessors();
@@ -302,10 +303,14 @@ public abstract class Renderer implements ISurfaceRenderer {
 
     @Override
     public void onRenderSurfaceCreated(EGLConfig config, GL10 gl, int width, int height) {
-        Capabilities.getInstance();
+        Capabilities cap = Capabilities.getInstance();
+
+        Timber.v("extensions= %s", cap.getExtensions());
+        Timber.v("renderer= %s", cap.getRenderer());
+        Timber.v("vendor= %s", cap.getVendor());
+        Timber.v("version= %s", cap.getVersion());
 
         String[] versionString = (GLES20.glGetString(GLES20.GL_VERSION)).split(" ");
-        Timber.d("Open GL ES Version String: " + GLES20.glGetString(GLES20.GL_VERSION));
         if (versionString.length >= 3) {
             String[] versionParts = versionString[2].split("\\.");
             if (versionParts.length >= 2) {
