@@ -19,7 +19,7 @@ buildscript {
 println "Gradle uses Java ${Jvm.current()}"
 
 ext {
-    minSdk = 15
+    minSdk = 16
     targetSdk = 33
     compileSdk = 33
     wear = "2.9.0"

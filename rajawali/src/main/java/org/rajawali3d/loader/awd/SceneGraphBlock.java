@@ -6,6 +6,8 @@ import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 import java.io.IOException;
 
 /**
@@ -29,7 +31,7 @@ public class SceneGraphBlock {
         // Lookup name
         lookupName = awddis.readVarString();
         if (RajLog.isDebugEnabled())
-            RajLog.d("  Lookup Name: " + lookupName);
+            Timber.d("  Lookup Name: " + lookupName);
     }
 
 }

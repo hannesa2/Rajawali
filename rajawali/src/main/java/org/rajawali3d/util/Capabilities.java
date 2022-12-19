@@ -24,6 +24,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 
+import timber.log.Timber;
+
 
 /**
  * Lists all OpenGL specific capabilities
@@ -86,18 +88,18 @@ public class Capabilities {
                     "Failed to initialize an EGL context while getting device capabilities.");
         mEGLMajorVersion = version[0];
         mEGLMinorVersion = version[1];
-        // RajLog.d("Device EGL Version: " + version[0] + "." + version[1]);
+        // Timber.d("Device EGL Version: " + version[0] + "." + version[1]);
 
         // Assume GLES 2 by default
         mGLESMajorVersion = 2;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             // The API for GLES3 might exist, we need to check
-            // RajLog.d("Attempting to get an OpenGL ES 3 config.");
+            // Timber.d("Attempting to get an OpenGL ES 3 config.");
             checkGLVersionIs3(egl, display);
         }
         egl.eglTerminate(display);
-        // RajLog.d("Determined GLES Major version to be: " + mGLESMajorVersion);
+        // Timber.d("Determined GLES Major version to be: " + mGLESMajorVersion);
         sGLChecked = true;
     }
 
@@ -133,7 +135,7 @@ public class Capabilities {
     }
 
     private void initialize() {
-        RajLog.d("Fetching device capabilities.");
+        Timber.d("Fetching device capabilities.");
 
         mParam = new int[1];
 

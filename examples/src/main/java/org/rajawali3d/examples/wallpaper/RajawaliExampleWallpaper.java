@@ -11,7 +11,7 @@ import org.rajawali3d.examples.examples.postprocessing.GaussianBlurFilterFragmen
 import org.rajawali3d.examples.examples.postprocessing.MultiPassFragment.MultiPassRenderer;
 import org.rajawali3d.examples.examples.ui.CanvasTextFragment.CanvasTextRenderer;
 import org.rajawali3d.renderer.ISurfaceRenderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.view.ISurface;
 import org.rajawali3d.wallpaper.Wallpaper;
 
@@ -24,7 +24,7 @@ public class RajawaliExampleWallpaper extends Wallpaper {
 
     @Override
     public Engine onCreateEngine() {
-        RajLog.v("Creating wallpaper engine.");
+        Timber.v("Creating wallpaper engine.");
         final Preferences preferences = Preferences.getInstance(this);
             switch (preferences.getWallpaperRendererPreference()) {
                 case 0:
@@ -57,7 +57,7 @@ public class RajawaliExampleWallpaper extends Wallpaper {
                 default:
                     mRenderer = new WallpaperRenderer(this);
             }
-        RajLog.i("Creating wallpaper engine: " + mRenderer.getClass().getSimpleName());
+        Timber.i("Creating wallpaper engine: %s", mRenderer.getClass().getSimpleName());
         return new WallpaperEngine(getBaseContext(), mRenderer,
                                    ISurface.ANTI_ALIASING_CONFIG.NONE);
     }
