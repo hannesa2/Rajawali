@@ -18,7 +18,7 @@ import android.content.res.Resources.NotFoundException;
 import org.rajawali3d.materials.textures.TextureManager;
 import org.rajawali3d.renderer.Renderer;
 import org.rajawali3d.util.LittleEndianDataInputStream;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,16 +109,16 @@ public class LoaderSTL extends AMeshLoader {
 				dis.close();
 
 		} catch (FileNotFoundException e) {
-			RajLog.e("[" + getClass().getCanonicalName() + "] Could not find file.");
+			Timber.e("[" + getClass().getCanonicalName() + "] Could not find file.");
 			throw new ParsingException("File not found.", e);
 		} catch (NumberFormatException e) {
-			RajLog.e(e.getMessage());
+			Timber.e(e.getMessage());
 			throw new ParsingException("Unexpected value.", e);
 		} catch (IOException e) {
-			RajLog.e(e.getMessage());
+			Timber.e(e.getMessage());
 			throw new ParsingException("File reading failed.", e);
 		} catch (Exception e) {
-			RajLog.e(e.getMessage());
+			Timber.e(e.getMessage());
 			throw new ParsingException("Unexpected exception occured.", e);
 		}
 
@@ -135,7 +135,7 @@ public class LoaderSTL extends AMeshLoader {
 	 * @throws IOException
 	 */
 	private void readASCII(final BufferedReader buffer) throws NumberFormatException, IOException {
-		RajLog.i("StlPaser: Reading ASCII");
+		Timber.i("StlPaser: Reading ASCII");
 
 		final List<Float> vertices = new ArrayList<Float>();
 		final List<Float> normals = new ArrayList<Float>();
@@ -215,7 +215,7 @@ public class LoaderSTL extends AMeshLoader {
 	 * @throws IOException
 	 */
 	private void readBinary(final LittleEndianDataInputStream dis) throws IOException {
-		RajLog.i("StlPaser: Reading Binary");
+		Timber.i("StlPaser: Reading Binary");
 
 		// Skip the header
 		dis.skip(80);
@@ -239,7 +239,7 @@ public class LoaderSTL extends AMeshLoader {
 			for (int j = 0; j < 3; j++) {
 				tempNorms[j] = dis.readFloat();
 				if (Float.isNaN(tempNorms[j]) || Float.isInfinite(tempNorms[j])) {
-					RajLog.w("STL contains bad normals of NaN or Infinite!");
+					Timber.w("STL contains bad normals of NaN or Infinite!");
 					tempNorms[0] = 0;
 					tempNorms[1] = 0;
 					tempNorms[2] = 0;
