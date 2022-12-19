@@ -16,6 +16,7 @@ import org.rajawali3d.renderer.ISurfaceRenderer
 import org.rajawali3d.util.Capabilities
 import org.rajawali3d.util.egl.RajawaliEGLConfigChooser
 import org.rajawali3d.util.egl.ResultConfigChooser
+import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
 import javax.microedition.khronos.egl.*
@@ -185,7 +186,7 @@ open class TextureView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (LOG_ATTACH_DETACH) {
-            Log.d(TAG, "onAttachedToWindow reattach =$detached")
+            Timber.d("onAttachedToWindow reattach =$detached")
         }
         if (detached && rendererDelegate != null) {
             val renderMode = glThread?.renderMode!!
@@ -200,7 +201,7 @@ open class TextureView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         if (LOG_ATTACH_DETACH) {
-            Log.v(TAG, "onDetachedFromWindow")
+            Timber.v("onDetachedFromWindow")
         }
         rendererDelegate?.renderer?.onRenderSurfaceDestroyed(null)
         glThread?.requestExitAndWait()
@@ -258,7 +259,7 @@ open class TextureView @JvmOverloads constructor(
             eglWindowSurfaceFactory = DefaultWindowSurfaceFactory()
         }
         // Create our delegate
-        val delegate = TextureView.RendererDelegate(renderer, this)
+        val delegate = RendererDelegate(renderer, this)
         // Create the GL thread
         glThread = GLThread(thisWeakRef, context)
             .apply { start() }
@@ -487,9 +488,9 @@ open class TextureView @JvmOverloads constructor(
 
         override fun destroyContext(egl: EGL10, display: EGLDisplay, context: EGLContext) {
             if (!egl.eglDestroyContext(display, context)) {
-                Log.e("DefaultContextFactory", "display:$display context: $context")
+                Timber.e("display:$display context: $context")
                 if (LOG_THREADS) {
-                    Log.i("DefaultContextFactory", "tid=" + Thread.currentThread().id)
+                    Timber.i("tid=" + Thread.currentThread().id)
                 }
                 EglHelper.throwEglException("eglDestroyContex", egl.eglGetError())
             }
@@ -518,7 +519,7 @@ open class TextureView @JvmOverloads constructor(
                 // notified via SurfaceTexture.Callback.surfaceDestroyed.
                 // In theory the application should be notified first,
                 // but in practice sometimes it is not. See b/4588890
-                Log.e(TAG, "eglCreateWindowSurface", e)
+                Timber.e("eglCreateWindowSurface", e)
             }
 
             return result
@@ -643,18 +644,18 @@ open class TextureView @JvmOverloads constructor(
      * An EGL helper class.
      */
     private class EglHelper(private val rajawaliTextureViewWeakRef: WeakReference<TextureView>) {
-        internal var egl: EGL10? = null
-        internal var eglDisplay: EGLDisplay? = null
-        internal var eglSurface: EGLSurface? = null
-        internal var mEglConfig: EGLConfig? = null
-        internal var eglContext: EGLContext? = null
+        var egl: EGL10? = null
+        var eglDisplay: EGLDisplay? = null
+        var eglSurface: EGLSurface? = null
+        var mEglConfig: EGLConfig? = null
+        var eglContext: EGLContext? = null
 
         /**
          * Initialize EGL for a given configuration spec.
          */
         fun start() {
             if (LOG_EGL) {
-                Log.w("EglHelper", "start() tid=" + Thread.currentThread().id)
+                Timber.w("start() tid=" + Thread.currentThread().id)
             }
             /*
              * Get an EGL instance
@@ -702,7 +703,7 @@ open class TextureView @JvmOverloads constructor(
                 throwEglException("createContext " + EGL10.EGL_NO_CONTEXT)
             }
             if (LOG_EGL) {
-                Log.w("EglHelper", "createContext " + eglContext + " tid=" + Thread.currentThread().id)
+                Timber.w("createContext " + eglContext + " tid=" + Thread.currentThread().id)
             }
 
             eglSurface = null
@@ -716,7 +717,7 @@ open class TextureView @JvmOverloads constructor(
          */
         fun createSurface(): Boolean {
             if (LOG_EGL) {
-                Log.w("EglHelper", "createSurface()  tid=" + Thread.currentThread().id)
+                Timber.w("createSurface()  tid=" + Thread.currentThread().id)
             }
             /*
              * Check preconditions.
@@ -748,7 +749,7 @@ open class TextureView @JvmOverloads constructor(
 
             if (eglSurface == null || eglSurface === EGL10.EGL_NO_SURFACE) {
                 if (egl?.eglGetError() == EGL10.EGL_BAD_NATIVE_WINDOW) {
-                    Log.e("EglHelper", "createWindowSurface returned EGL_BAD_NATIVE_WINDOW.")
+                    Timber.e("createWindowSurface returned EGL_BAD_NATIVE_WINDOW.")
                 }
                 return false
             }
@@ -762,7 +763,7 @@ open class TextureView @JvmOverloads constructor(
                  * Could not make the context current, probably because the underlying
                  * SurfaceView surface has been destroyed.
                  */
-                logEglErrorAsWarning("EGLHelper", "eglMakeCurrent", egl!!.eglGetError())
+                logEglErrorAsWarning("eglMakeCurrent", egl!!.eglGetError())
                 return false
             }
 
@@ -774,7 +775,7 @@ open class TextureView @JvmOverloads constructor(
          *
          * @return [GL] The GL interface for the current context.
          */
-        internal fun createGL(): GL {
+        fun createGL(): GL {
             return eglContext!!.gl
         }
 
@@ -791,7 +792,7 @@ open class TextureView @JvmOverloads constructor(
 
         fun destroySurface() {
             if (LOG_EGL) {
-                Log.w("EglHelper", "destroySurface()  tid=" + Thread.currentThread().id)
+                Timber.w("destroySurface()  tid=" + Thread.currentThread().id)
             }
             destroySurfaceImp()
         }
@@ -812,7 +813,7 @@ open class TextureView @JvmOverloads constructor(
 
         fun finish() {
             if (LOG_EGL) {
-                Log.w("EglHelper", "finish() tid=" + Thread.currentThread().id)
+                Timber.w("finish() tid=" + Thread.currentThread().id)
             }
             eglContext?.let {
                 rajawaliTextureViewWeakRef.get()
@@ -837,13 +838,13 @@ open class TextureView @JvmOverloads constructor(
             fun throwEglException(function: String, error: Int) {
                 val message = formatEglError(function, error)
                 if (LOG_THREADS) {
-                    Log.e("EglHelper", "throwEglException tid=" + Thread.currentThread().id + " " + message)
+                    Timber.e("throwEglException tid=" + Thread.currentThread().id + " " + message)
                 }
                 throw RuntimeException(message)
             }
 
-            fun logEglErrorAsWarning(tag: String, function: String, error: Int) {
-                Log.w(tag, formatEglError(function, error))
+            fun logEglErrorAsWarning(function: String, error: Int) {
+                Timber.w(formatEglError(function, error))
             }
 
             fun formatEglError(function: String, error: Int): String {
@@ -867,7 +868,7 @@ open class TextureView @JvmOverloads constructor(
                     EGL10.EGL_BAD_PARAMETER -> return "EGL_BAD_PARAMETER"
                     EGL10.EGL_BAD_SURFACE -> return "EGL_BAD_SURFACE"
                     EGL11.EGL_CONTEXT_LOST -> return "EGL_CONTEXT_LOST"
-                    else -> return "0x" + Integer.toHexString(error).toUpperCase(Locale.US)
+                    else -> return "0x" + Integer.toHexString(error).uppercase(Locale.US)
                 }
             }
         }
@@ -940,7 +941,7 @@ open class TextureView @JvmOverloads constructor(
         override fun run() {
             name = "RajawaliGLThread $id"
             if (LOG_THREADS) {
-                Log.i("RajawaliGLThread", "starting tid=$id")
+                Timber.i("starting tid=$id")
             }
 
             try {
@@ -948,10 +949,10 @@ open class TextureView @JvmOverloads constructor(
             } catch (e: InterruptedException) {
                 // fall thru and exit normally
             } catch (e: IllegalStateException) {
-                Log.e("RajawaliGLThread", e.message ?: "")
+                Timber.e(e.message ?: "")
                 showToast(e.message)
             } catch (e: Exception) {
-                Log.e("RajawaliGLThread", e.message ?: "")
+                Timber.e(e.message ?: "")
             } finally {
                 glThreadManager.threadExiting(this)
             }
@@ -1022,14 +1023,14 @@ open class TextureView @JvmOverloads constructor(
                                 paused = requestPaused
                                 glThreadManager.notifyAll()
                                 if (LOG_PAUSE_RESUME) {
-                                    Log.i("RajawaliGLThread", "paused is now $paused tid=$id")
+                                    Timber.i("paused is now $paused tid=$id")
                                 }
                             }
 
                             // Do we need to give up the EGL context?
                             if (shouldReleaseEglContext) {
                                 if (LOG_SURFACE) {
-                                    Log.i("RajawaliGLThread", "releasing EGL context because asked to tid=$id")
+                                    Timber.i("releasing EGL context because asked to tid=$id")
                                 }
                                 stopEglSurfaceLocked()
                                 stopEglContextLocked()
@@ -1047,7 +1048,7 @@ open class TextureView @JvmOverloads constructor(
                             // When pausing, release the EGL surface:
                             if (pausing && haveEglSurface) {
                                 if (LOG_SURFACE) {
-                                    Log.i("RajawaliGLThread", "releasing EGL surface because paused tid=$id")
+                                    Timber.i("releasing EGL surface because paused tid=$id")
                                 }
                                 stopEglSurfaceLocked()
                             }
@@ -1059,7 +1060,7 @@ open class TextureView @JvmOverloads constructor(
                                     if (!preserveEglContextOnPause || glThreadManager.shouldReleaseEGLContextWhenPausing()) {
                                         stopEglContextLocked()
                                         if (LOG_SURFACE) {
-                                            Log.i("RajawaliGLThread", "releasing EGL context because paused tid=$id")
+                                            Timber.i("releasing EGL context because paused tid=$id")
                                         }
                                     }
                                 }
@@ -1071,7 +1072,7 @@ open class TextureView @JvmOverloads constructor(
                                 if (glThreadManager.shouldTerminateEGLWhenPausing()) {
                                     eglHelper?.finish()
                                     if (LOG_SURFACE) {
-                                        Log.i("RajawaliGLThread", "terminating EGL because paused tid=$id")
+                                        Timber.i("terminating EGL because paused tid=$id")
                                     }
                                 }
                             }
@@ -1079,7 +1080,7 @@ open class TextureView @JvmOverloads constructor(
                             // Have we lost the SurfaceView surface?
                             if (!hasSurface && !waitingForSurface) {
                                 if (LOG_SURFACE) {
-                                    Log.i("RajawaliGLThread", "noticed surfaceView surface lost tid=$id")
+                                    Timber.i("noticed surfaceView surface lost tid=$id")
                                 }
                                 if (haveEglSurface) {
                                     stopEglSurfaceLocked()
@@ -1092,7 +1093,7 @@ open class TextureView @JvmOverloads constructor(
                             // Have we acquired the surface view surface?
                             if (hasSurface && waitingForSurface) {
                                 if (LOG_SURFACE) {
-                                    Log.i("RajawaliGLThread", "noticed surfaceView surface acquired tid=$id")
+                                    Timber.i("noticed surfaceView surface acquired tid=$id")
                                 }
                                 waitingForSurface = false
                                 glThreadManager.notifyAll()
@@ -1100,7 +1101,7 @@ open class TextureView @JvmOverloads constructor(
 
                             if (doRenderNotification) {
                                 if (LOG_SURFACE) {
-                                    Log.i("RajawaliGLThread", "sending render notification tid=$id")
+                                    Timber.i("sending render notification tid=$id")
                                 }
                                 wantRenderNotification = false
                                 doRenderNotification = false
@@ -1143,7 +1144,7 @@ open class TextureView @JvmOverloads constructor(
                                         h = height
                                         wantRenderNotification = true
                                         if (LOG_SURFACE) {
-                                            Log.i("RajawaliGLThread", "noticing that we want render notification tid=$id")
+                                            Timber.i("noticing that we want render notification tid=$id")
                                         }
 
                                         // Destroy and recreate the EGL surface.
@@ -1159,8 +1160,8 @@ open class TextureView @JvmOverloads constructor(
 
                             // By design, this is the only place in a RajawaliGLThread thread where we wait().
                             if (LOG_THREADS) {
-                                Log.i(
-                                    "RajawaliGLThread", "waiting tid=" + id
+                                Timber.i(
+                                    "waiting tid=" + id
                                             + " haveEglContext: " + haveEglContext
                                             + " haveEglSurface: " + haveEglSurface
                                             + " finishedCreatingEglSurface: " + finishedCreatingEglSurface
@@ -1186,7 +1187,7 @@ open class TextureView @JvmOverloads constructor(
 
                     if (createEglSurface) {
                         if (LOG_SURFACE) {
-                            Log.w("RajawaliGLThread", "egl createSurface")
+                            Timber.w("egl createSurface")
                         }
                         if (eglHelper!!.createSurface()) {
                             synchronized(glThreadManager) {
@@ -1213,7 +1214,7 @@ open class TextureView @JvmOverloads constructor(
 
                     if (createEglContext) {
                         if (LOG_RENDERER) {
-                            Log.w("RajawaliGLThread", "onSurfaceCreated")
+                            Timber.w("onSurfaceCreated")
                         }
                         val view = rajawaliTextureViewWeakRef.get()
                         view?.rendererDelegate?.renderer?.onRenderSurfaceCreated(eglHelper?.mEglConfig, gl, -1, -1)
@@ -1222,7 +1223,7 @@ open class TextureView @JvmOverloads constructor(
 
                     if (sizeChangedLocal) {
                         if (LOG_RENDERER) {
-                            Log.w("RajawaliGLThread", "onSurfaceChanged($w, $h)")
+                            Timber.w("onSurfaceChanged($w, $h)")
                         }
                         val view = rajawaliTextureViewWeakRef.get()
                         view?.rendererDelegate?.renderer?.onRenderSurfaceSizeChanged(gl, w, h)
@@ -1230,7 +1231,7 @@ open class TextureView @JvmOverloads constructor(
                     }
 
                     if (LOG_RENDERER_DRAW_FRAME) {
-                        Log.w("RajawaliGLThread", "onDrawFrame tid=$id")
+                        Timber.w("onDrawFrame tid=$id")
                     }
                     run {
                         val view = rajawaliTextureViewWeakRef.get()
@@ -1241,7 +1242,7 @@ open class TextureView @JvmOverloads constructor(
                         EGL10.EGL_SUCCESS -> Unit
                         EGL11.EGL_CONTEXT_LOST -> {
                             if (LOG_SURFACE) {
-                                Log.i("RajawaliGLThread", "egl context lost tid=$id")
+                                Timber.i("egl context lost tid=$id")
                             }
                             lostEglContext = true
                         }
@@ -1250,7 +1251,7 @@ open class TextureView @JvmOverloads constructor(
                             // probably because the SurfaceView surface has been destroyed,
                             // but we haven't been notified yet.
                             // Log the error to help developers understand why rendering stopped.
-                            EglHelper.logEglErrorAsWarning("RajawaliGLThread", "eglSwapBuffers", swapError)
+                            EglHelper.logEglErrorAsWarning("eglSwapBuffers", swapError)
 
                             synchronized(glThreadManager) {
                                 surfaceIsBad = true
@@ -1291,7 +1292,7 @@ open class TextureView @JvmOverloads constructor(
         fun surfaceCreated(w: Int, h: Int) {
             synchronized(glThreadManager) {
                 if (LOG_THREADS) {
-                    Log.i("RajawaliGLThread", "surfaceCreated tid=$id")
+                    Timber.i("surfaceCreated tid=$id")
                 }
                 hasSurface = true
                 width = w
@@ -1305,7 +1306,7 @@ open class TextureView @JvmOverloads constructor(
                     try {
                         glThreadManager.wait()
                     } catch (e: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1315,7 +1316,7 @@ open class TextureView @JvmOverloads constructor(
         fun surfaceDestroyed() {
             synchronized(glThreadManager) {
                 if (LOG_THREADS) {
-                    Log.i("RajawaliGLThread", "surfaceDestroyed tid=$id")
+                    Timber.i("surfaceDestroyed tid=$id")
                 }
                 hasSurface = false
                 glThreadManager.notifyAll()
@@ -1323,7 +1324,7 @@ open class TextureView @JvmOverloads constructor(
                     try {
                         glThreadManager.wait()
                     } catch (e: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1333,18 +1334,18 @@ open class TextureView @JvmOverloads constructor(
         fun onPause() {
             synchronized(glThreadManager) {
                 if (LOG_PAUSE_RESUME) {
-                    Log.i("RajawaliGLThread", "onPause tid=$id")
+                    Timber.i("onPause tid=$id")
                 }
                 requestPaused = true
                 glThreadManager.notifyAll()
                 while (!exited && !paused) {
                     if (LOG_PAUSE_RESUME) {
-                        Log.i("Main thread", "onPause waiting for paused.")
+                        Timber.i("onPause waiting for paused.")
                     }
                     try {
                         glThreadManager.wait()
                     } catch (ex: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1354,7 +1355,7 @@ open class TextureView @JvmOverloads constructor(
         fun onResume() {
             synchronized(glThreadManager) {
                 if (LOG_PAUSE_RESUME) {
-                    Log.i("RajawaliGLThread", "onResume tid=$id")
+                    Timber.i("onResume tid=$id")
                 }
                 requestPaused = false
                 requestRender = true
@@ -1362,12 +1363,12 @@ open class TextureView @JvmOverloads constructor(
                 glThreadManager.notifyAll()
                 while (!exited && paused && !renderComplete) {
                     if (LOG_PAUSE_RESUME) {
-                        Log.i("Main thread", "onResume waiting for !paused.")
+                        Timber.i("onResume waiting for !paused.")
                     }
                     try {
                         glThreadManager.wait()
                     } catch (ex: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1388,12 +1389,12 @@ open class TextureView @JvmOverloads constructor(
                     && ableToDraw()
                 ) {
                     if (LOG_SURFACE) {
-                        Log.i("Main thread", "onWindowResize waiting for render complete from tid=$id")
+                        Timber.i("onWindowResize waiting for render complete from tid=$id")
                     }
                     try {
                         glThreadManager.wait()
                     } catch (ex: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1410,7 +1411,7 @@ open class TextureView @JvmOverloads constructor(
                     try {
                         glThreadManager.wait()
                     } catch (ex: InterruptedException) {
-                        Thread.currentThread().interrupt()
+                        currentThread().interrupt()
                     }
 
                 }
@@ -1454,7 +1455,7 @@ open class TextureView @JvmOverloads constructor(
         @Synchronized
         fun threadExiting(thread: GLThread) {
             if (LOG_THREADS) {
-                Log.i("RajawaliGLThread", "exiting tid=" + thread.id)
+                Timber.i("exiting tid=" + thread.id)
             }
             thread.exited = true
             if (eglOwner === thread) {
@@ -1520,7 +1521,7 @@ open class TextureView @JvmOverloads constructor(
                     multipleGLESContextsAllowed = true
                 }
                 if (LOG_SURFACE) {
-                    Log.w(TAG, "glesVersion=$glesVersion multipleGLESContextsAllowed=$multipleGLESContextsAllowed")
+                    Timber.w("glesVersion=$glesVersion multipleGLESContextsAllowed=$multipleGLESContextsAllowed")
                 }
                 glesVersionCheckComplete = true
             }
@@ -1537,21 +1538,19 @@ open class TextureView @JvmOverloads constructor(
                 }
                 limitedGLESContexts = !multipleGLESContextsAllowed
                 if (LOG_SURFACE) {
-                    Log.w(TAG, "renderer=\"$renderer\" multipleContextsAllowed=$multipleGLESContextsAllowed limitedGLESContexts=$limitedGLESContexts")
+                    Timber.w("renderer=\"$renderer\" multipleContextsAllowed=$multipleGLESContextsAllowed limitedGLESContexts=$limitedGLESContexts")
                 }
                 glesDriverCheckComplete = true
             }
         }
 
         companion object {
-            private const val TAG = "RajawaliGLThreadManager"
             private const val kGLES_20 = 0x20000
             private const val kMSM7K_RENDERER_PREFIX = "Q3Dimension MSM7500 "
         }
     }
 
     companion object {
-        private const val TAG = "TextureView"
         private const val LOG_ATTACH_DETACH = false
         private const val LOG_THREADS = false
         private const val LOG_PAUSE_RESUME = false

@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 /**
  * @author Jared Woolston (jwoolston@keywcorp.com)
  */
@@ -43,7 +45,7 @@ public class Preferences implements OnSharedPreferenceChangeListener {
         try {
             wallpaperRendererPreference = Integer.parseInt(preferences.getString(WALLPAPER_RENDERER_KEY, "0"));
         } catch (Exception e) {
-            RajLog.e("updatePreferences() failed: " + e.getMessage());
+            Timber.e("updatePreferences() failed: " + e.getMessage());
             wallpaperRendererPreference = 0;
         }
     }

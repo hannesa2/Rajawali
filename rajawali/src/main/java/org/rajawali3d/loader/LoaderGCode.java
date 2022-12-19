@@ -27,7 +27,7 @@ import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.loader.LoaderSTL.StlParseException;
 import org.rajawali3d.primitives.Line3D;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
@@ -236,7 +236,7 @@ public class LoaderGCode extends AMeshLoader {
 							continue;
 						}
 					} catch (Exception e) {
-						RajLog.e("there was an error parsing gcode=" + gin);
+						Timber.e("there was an error parsing gcode=" + gin);
 					}
 				}
 			}
@@ -540,17 +540,17 @@ public class LoaderGCode extends AMeshLoader {
 				buffer.close();
 			}
 		} catch (FileNotFoundException e) {
-			RajLog.e(new StringBuilder().append("[").append(getClass().getCanonicalName())
+			Timber.e(new StringBuilder().append("[").append(getClass().getCanonicalName())
 					.append("] Could not find file.").toString());
 			throw new ParsingException("File not found.", e);
 		} catch (NumberFormatException e) {
-			RajLog.e(Log.getStackTraceString(e));
+			Timber.e(Log.getStackTraceString(e));
 			throw new ParsingException("Unexpected value.", e);
 		} catch (IOException e) {
-			RajLog.e(Log.getStackTraceString(e));
+			Timber.e(Log.getStackTraceString(e));
 			throw new ParsingException("File reading failed.", e);
 		} catch (Exception e) {
-			RajLog.e(Log.getStackTraceString(e));
+			Timber.e(Log.getStackTraceString(e));
 			throw new ParsingException("Unexpected exception occured.", e);
 		}
 
@@ -619,7 +619,7 @@ public class LoaderGCode extends AMeshLoader {
 	 * @throws IOException
 	 */
 	protected Object3D readGCode(BufferedInputStream buffer) throws IOException {
-		RajLog.i("GCodePaser: reading file");
+		Timber.i("GCodePaser: reading file");
 		Object3D ret = new Object3D();
 		String codeLine;
 		// Read the facet
@@ -658,7 +658,7 @@ public class LoaderGCode extends AMeshLoader {
 			try {
 				cmd = SupportedCommands.fromString(tokens[0]);
 			} catch (IllegalArgumentException e) {
-				RajLog.w("encountered unsupported gcode:" + tokens[0]);
+				Timber.w("encountered unsupported gcode:" + tokens[0]);
 				continue;
 			}
 			switch (cmd) {
@@ -742,7 +742,7 @@ public class LoaderGCode extends AMeshLoader {
 				// no-op
 				break;
 			}
-			// RajLog.d("gcode parser parsed line #" + lineNum++);
+			// Timber.d("gcode parser parsed line #" + lineNum++);
 		}
 		return ret;
 	}

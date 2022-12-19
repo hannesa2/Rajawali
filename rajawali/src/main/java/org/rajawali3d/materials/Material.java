@@ -46,6 +46,8 @@ import org.rajawali3d.scene.Scene;
 import org.rajawali3d.util.Capabilities;
 import org.rajawali3d.util.RajLog;
 
+import timber.log.Timber;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -459,7 +461,7 @@ public class Material {
      * {@inheritDoc}
      */
     void add() {
-        RajLog.d("Material is being added.");
+        Timber.d("Material is being added.");
         // We are being added to the scene, check the capabilities now if needed since they are available.
         checkCapabilitiesIfNeeded();
 
@@ -713,10 +715,10 @@ public class Material {
         if (mFragmentShader.needsBuild()) mFragmentShader.buildShader();
 
         if (RajLog.isDebugEnabled()) {
-            RajLog.d("-=-=-=- VERTEX SHADER -=-=-=-");
-            RajLog.d(mVertexShader.getShaderString());
-            RajLog.d("-=-=-=- FRAGMENT SHADER -=-=-=-");
-            RajLog.d(mFragmentShader.getShaderString());
+            Timber.d("-=-=-=- VERTEX SHADER -=-=-=-");
+            Timber.d(mVertexShader.getShaderString());
+            Timber.d("-=-=-=- FRAGMENT SHADER -=-=-=-");
+            Timber.d(mFragmentShader.getShaderString());
         }
 
         mProgramHandle = createProgram(mVertexShader.getShaderString(), mFragmentShader.getShaderString());
@@ -779,9 +781,9 @@ public class Material {
             int[] compiled = new int[1];
             GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
             if (compiled[0] == 0) {
-                RajLog.e("[" + getClass().getName() + "] Could not compile "
+                Timber.e("[" + getClass().getName() + "] Could not compile "
                     + (shaderType == GLES20.GL_FRAGMENT_SHADER ? "fragment" : "vertex") + " shader:");
-                RajLog.e("Shader log: " + GLES20.glGetShaderInfoLog(shader));
+                Timber.e("Shader log: " + GLES20.glGetShaderInfoLog(shader));
                 GLES20.glDeleteShader(shader);
                 shader = 0;
             }
@@ -818,8 +820,8 @@ public class Material {
             int[] linkStatus = new int[1];
             GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
             if (linkStatus[0] != GLES20.GL_TRUE) {
-                RajLog.e("Could not link program in " + getClass().getCanonicalName() + ": ");
-                RajLog.e(GLES20.glGetProgramInfoLog(program));
+                Timber.e("Could not link program in " + getClass().getCanonicalName() + ": ");
+                Timber.e(GLES20.glGetProgramInfoLog(program));
                 GLES20.glDeleteProgram(program);
                 program = 0;
             }
@@ -860,7 +862,7 @@ public class Material {
 
         int textureHandle = GLES20.glGetUniformLocation(mProgramHandle, texture.getTextureName());
         if (textureHandle == -1 && RajLog.isDebugEnabled()) {
-            RajLog.e("Could not get uniform location for " + texture.getTextureName() + ", "
+            Timber.e("Could not get uniform location for " + texture.getTextureName() + ", "
                      + texture.getTextureType());
             return;
         }
@@ -873,7 +875,7 @@ public class Material {
         }
         int textureHandle = GLES20.glGetUniformLocation(mProgramHandle, name);
         if (textureHandle == -1 && RajLog.isDebugEnabled()) {
-            RajLog.e("Could not get uniform location for " + name + " Program Handle: " + mProgramHandle);
+            Timber.e("Could not get uniform location for " + name + " Program Handle: " + mProgramHandle);
             return;
         }
         mTextureHandles.put(name, textureHandle);
@@ -890,7 +892,7 @@ public class Material {
         // Check if the number of applied textures is larger than the max texture count
         // - this would be due to deferred capabilities checking. If so, choose max texture count.
         if (num > mMaxTextures) {
-            RajLog.e(num + " textures have been added to this material but this device supports a max of "
+            Timber.e(num + " textures have been added to this material but this device supports a max of "
                 + mMaxTextures + " textures in the fragment shader. Only the first " + mMaxTextures + " will be used.");
             num = mMaxTextures;
         }
@@ -1106,7 +1108,7 @@ public class Material {
         try {
             mNormalMatrix.setToNormalMatrix();
         } catch (IllegalStateException exception) {
-            RajLog.d("modelMatrix is degenerate (zero scale)...");
+            Timber.d("modelMatrix is degenerate (zero scale)...");
         }
         float[] matrix = mNormalMatrix.getFloatValues();
 

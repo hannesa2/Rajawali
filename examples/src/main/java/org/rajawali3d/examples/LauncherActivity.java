@@ -9,15 +9,14 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import org.rajawali3d.examples.wallpaper.WallpaperPreferenceActivity;
 
-public class LauncherActivity extends AppCompatActivity {
+import timber.log.Timber;
 
-    private static final String TAG = "LauncherActivity";
+public class LauncherActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSIONS = 1;
     public static String[] PERMISSIONS = {
@@ -53,7 +52,7 @@ public class LauncherActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSIONS:
                 if (hasAllPermissions(PERMISSIONS)) {
-                    Log.d(TAG, "All permissions granted!");
+                    Timber.d("All permissions granted!");
                 } else {
                     Toast.makeText(
                             this,

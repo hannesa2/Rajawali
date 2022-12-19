@@ -15,7 +15,7 @@ import org.rajawali3d.postprocessing.effects.BloomEffect;
 import org.rajawali3d.postprocessing.passes.BlendPass;
 import org.rajawali3d.postprocessing.passes.RenderPass;
 import org.rajawali3d.primitives.Cube;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.util.Random;
 
@@ -92,7 +92,7 @@ public class BloomEffectFragment extends AExampleFragment {
 
 			bloomEffect.setRenderToScreen(true);
 
-			RajLog.i("Viewport: " + getViewportWidth() + ", " + getViewportHeight());
+			Timber.i("Viewport: " + getViewportWidth() + ", " + getViewportHeight());
 		}
 
 		@Override
