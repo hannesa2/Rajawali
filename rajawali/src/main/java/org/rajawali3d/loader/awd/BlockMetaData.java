@@ -4,6 +4,8 @@ import org.rajawali3d.loader.LoaderAWD.AWDLittleEndianDataInputStream;
 import org.rajawali3d.loader.LoaderAWD.AwdProperties;
 import org.rajawali3d.loader.LoaderAWD.BlockHeader;
 import org.rajawali3d.util.RajLog;
+
+import timber.log.Timber;
 import android.util.SparseArray;
 
 /**
@@ -46,11 +48,11 @@ public class BlockMetaData extends ABlockParser {
 		mGeneratorVersion = properties.get(PROP_GENERATOR_VERSION).toString();
 
 		if (RajLog.isDebugEnabled()) {
-			RajLog.d("  Timestamp: " + mTimeStamp);
-			RajLog.d("  Encoder Name: " + mEncoderName);
-			RajLog.d("  Encoder Version: " + mEncoderVersion);
-			RajLog.d("  Generator Name: " + mGeneratorName);
-			RajLog.d("  Generator Version: " + mGeneratorVersion);
+			Timber.d("  Timestamp: " + mTimeStamp);
+			Timber.d("  Encoder Name: " + mEncoderName);
+			Timber.d("  Encoder Version: " + mEncoderVersion);
+			Timber.d("  Generator Name: " + mGeneratorName);
+			Timber.d("  Generator Version: " + mGeneratorVersion);
 		}
 	}
 

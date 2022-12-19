@@ -35,7 +35,7 @@ public class RayPickingVisitor implements INodeVisitor {
 		if(node instanceof Object3D) {
 			Object3D o = (Object3D)node;
 			if(!o.isVisible() || !o.isInFrustum()) return;
-			//RajLog.d("VISITING " + o.getName());
+			//Timber.d("VISITING " + o.getName());
 			
 			if (o.getGeometry().hasBoundingSphere()) {
 				BoundingSphere bsphere = o.getGeometry().getBoundingSphere();

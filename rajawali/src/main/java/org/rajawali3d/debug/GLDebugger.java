@@ -2,7 +2,7 @@ package org.rajawali3d.debug;
 
 import android.opengl.GLDebugHelper;
 
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -54,7 +54,7 @@ public class GLDebugger {
 
             private void flushBuilder() {
                 if (mBuilder.length() > 0) {
-                    RajLog.v(mBuilder.toString());
+                    Timber.v(mBuilder.toString());
                     mBuilder.delete(0, mBuilder.length());
                 }
             }
