@@ -1,4 +1,4 @@
-name: Github CI
+name: PullRequest
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  buildTest:
     name: Build
     runs-on: macOS-latest
     steps:
@@ -34,20 +34,20 @@ jobs:
           tag: default
           abi: x86
           cmdOptions: -noaudio -no-boot-anim -no-window
-    - name: Archive Espresso results
+      - name: Archive Espresso results
         uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: Rajawali-Espresso-report
           path: sample/build/reports/androidTests/connected
-    - name: Archive screenshots
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: Rajawali-Screenshots
-        path: |
-          sample/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-          sample/build/outputs/androidTest-results/connected
+      - name: Archive screenshots
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Rajawali-Screenshots
+          path: |
+            sample/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+            sample/build/outputs/androidTest-results/connected
   check:
     name: Check
     runs-on: macOS-latest
@@ -68,4 +68,4 @@ jobs:
         if: ${{ always() }}
         with:
           name: Rajawali-Lint
-          path: ./**/build/reports/lint-results.html
+          path: ./**/build/reports/lint-results*.html
