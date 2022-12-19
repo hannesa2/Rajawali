@@ -2,10 +2,6 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0%20License-blue.svg)](https://github.com/Rajawali/Rajawali/blob/master/LICENSE.txt)
 [![](https://jitpack.io/v/hannesa2/rajawali.svg)](https://jitpack.io/#hannesa2/rajawali)
 
-# Build Status
-**Master Branch Status**  
-[![Github CI](https://github.com/hannesa2/Rajawali/actions/workflows/Android-CI-Espresso.yml/badge.svg)](https://github.com/hannesa2/Rajawali/actions/workflows/Android-CI-Espresso.yml)
-
 ### General
 
 Rajawali is a 3D engine for Android based on OpenGL ES 2.0/3.0. It can be used for normal apps as well as live wallpapers.
