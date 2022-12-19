@@ -8,7 +8,6 @@ import android.opengl.GLSurfaceView
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import org.rajawali3d.R
@@ -126,7 +125,7 @@ open class TextureView @JvmOverloads constructor(
     }
 
     private fun initialize() {
-        val glesMajorVersion = Capabilities.getGLESMajorVersion()
+        val glesMajorVersion = Capabilities.gLESMajorVersion
         setEGLContextClientVersion(glesMajorVersion)
 
         setEGLConfigChooser(
@@ -691,6 +690,12 @@ open class TextureView @JvmOverloads constructor(
                     * EGL context is a somewhat heavy object.
                     */
                     eglContext = it.eglContextFactory?.createContext(egl, eglDisplay, mEglConfig)
+                    // log version out
+                    eglContext?.let {
+                        Timber.w("Using OpenGL ES 3.0")
+                    } ?: run {
+                        Timber.w("Using OpenGL ES 2.0")
+                    }
                 } ?: run {
                     result?.error?.let { error -> throwEglException(error) }
                 }
@@ -1187,7 +1192,7 @@ open class TextureView @JvmOverloads constructor(
 
                     if (createEglSurface) {
                         if (LOG_SURFACE) {
-                            Timber.w("egl createSurface")
+                            Timber.w("egl createSurface...")
                         }
                         if (eglHelper!!.createSurface()) {
                             synchronized(glThreadManager) {
@@ -1202,6 +1207,8 @@ open class TextureView @JvmOverloads constructor(
                             }
                             continue
                         }
+                        if (LOG_SURFACE)
+                            Timber.d("egl createSurface surfaceIsBad=$surfaceIsBad")
                         createEglSurface = false
                     }
 
@@ -1516,7 +1523,7 @@ open class TextureView @JvmOverloads constructor(
 
         private fun checkGLESVersion() {
             if (!glesVersionCheckComplete) {
-                glesVersion = Capabilities.getGLESMajorVersion()
+                glesVersion = Capabilities.gLESMajorVersion
                 if (glesVersion >= kGLES_20) {
                     multipleGLESContextsAllowed = true
                 }
