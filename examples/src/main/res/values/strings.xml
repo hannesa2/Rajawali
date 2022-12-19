@@ -86,6 +86,7 @@
     <string name="fxaa_fragment_button_disable_fxaa">Disable FXAA</string>
     <string name="fxaa_fragment_button_enable_fxaa">Enable FXAA</string>
     <string name="system" tools:ignore="ExtraTranslation">System</string>
+    <string name="log">Log</string>
 
 
 </resources>

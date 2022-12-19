@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.rajawali3d.util.Capabilities;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 /**
  * All in one utility class for ETC2 textures. This performs the same duties as the {@link ETC1} and {@link ETC1Util}
@@ -266,11 +266,11 @@ public class ETC2Util {
             // First check the ETC2 magic sequence
             if ((ETC2Magic[0] != header.get(0)) && (ETC2Magic[1] != header.get(1)) && (ETC2Magic[2] != header.get(2))
                 && (ETC2Magic[3] != header.get(3)) && (ETC2Magic[4] != header.get(4)) && (ETC2Magic[5] != header.get(5))) {
-                RajLog.e("ETC2 header failed magic sequence check.");
+                Timber.e("ETC2 header failed magic sequence check.");
                 // Check to see if we are ETC1 instead
                 if ((ETC1Magic[0] != header.get(0)) && (ETC1Magic[1] != header.get(1)) && (ETC1Magic[2] != header.get(2))
                     && (ETC1Magic[3] != header.get(3)) && (ETC1Magic[4] != header.get(4)) && (ETC1Magic[5] != header.get(5))) {
-                    RajLog.e("ETC1 header failed magic sequence check.");
+                    Timber.e("ETC1 header failed magic sequence check.");
                     return false;
                 }
             }
@@ -288,7 +288,7 @@ public class ETC2Util {
                 case SIGNED_RG11_EAC:
                     break;
                 default:
-                    RajLog.e("ETC2 header failed format check.");
+                    Timber.e("ETC2 header failed format check.");
                     return false;
             }
 
@@ -299,12 +299,12 @@ public class ETC2Util {
 
             // Check the width
             if (encodedWidth < width || (encodedWidth - width) > 4) {
-                RajLog.e("ETC2 header failed width check. Encoded: " + encodedWidth + " Actual: " + width);
+                Timber.e("ETC2 header failed width check. Encoded: " + encodedWidth + " Actual: " + width);
                 return false;
             }
             // Check the height
             if (encodedHeight < height || (encodedHeight - height) > 4) {
-                RajLog.e("ETC2 header failed height check. Encoded: " + encodedHeight + " Actual: " + height);
+                Timber.e("ETC2 header failed height check. Encoded: " + encodedHeight + " Actual: " + height);
                 return false;
             }
 

@@ -28,7 +28,7 @@ import org.rajawali3d.materials.textures.SpecularMapTexture;
 import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.materials.textures.TextureManager;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -124,7 +124,7 @@ public class LoaderOBJ extends AMeshLoader {
 		try {
 			buffer = getBufferedReader();
 		} catch (Exception e) {
-			RajLog.e("["+getClass().getCanonicalName()+"] Could not find file.");
+			Timber.e("["+getClass().getCanonicalName()+"] Could not find file.");
 			e.printStackTrace();
 			return this;
 		}
@@ -249,11 +249,11 @@ public class LoaderOBJ extends AMeshLoader {
 						}
 						previousGroup = group;
 					}
-					RajLog.i("Parsing group: " + currentGroup.getName());
+					Timber.i("Parsing group: " + currentGroup.getName());
 					if (currentObjHasFaces) {
 						objIndices.add(currObjIndexData);
 						currObjIndexData = new ObjIndexData(new Object3D(generateObjectName()));
-						RajLog.i("Parsing object: " + currObjIndexData.targetObj.getName());
+						Timber.i("Parsing object: " + currObjIndexData.targetObj.getName());
 						currObjIndexData.materialName = currentMaterialName;
 						currentObjHasFaces = false;
 					}
@@ -266,7 +266,7 @@ public class LoaderOBJ extends AMeshLoader {
 						currObjIndexData = new ObjIndexData(new Object3D(currObjIndexData.targetObj.getName()));
 						currObjIndexData.materialName = currentMaterialName;
 						addChildSetParent(currentGroup, currObjIndexData.targetObj);
-						RajLog.i("Parsing object: " + currObjIndexData.targetObj.getName());
+						Timber.i("Parsing object: " + currObjIndexData.targetObj.getName());
 						currentObjHasFaces = false;
 					}
 					currObjIndexData.targetObj.setName(objName);
@@ -274,14 +274,14 @@ public class LoaderOBJ extends AMeshLoader {
 					if(!parts.hasMoreTokens()) continue;
                     String materialLibPath = mNeedToRenameMtl ? parts.nextToken().replace(".", "_") : parts.nextToken();
 
-					RajLog.d("Found Material Lib: " + materialLibPath);
+					Timber.d("Found Material Lib: " + materialLibPath);
 					matLib.parse(materialLibPath);
 				} else if(type.equals(USE_MATERIAL)) {
 					currentMaterialName = parts.nextToken();
 					if(currentObjHasFaces) {
 						objIndices.add(currObjIndexData);
 						currObjIndexData = new ObjIndexData(new Object3D(generateObjectName(currentMaterialName)));
-						RajLog.i("Parsing object: " + currObjIndexData.targetObj.getName());
+						Timber.i("Parsing object: " + currObjIndexData.targetObj.getName());
 						addChildSetParent(currentGroup, currObjIndexData.targetObj);
 						currentObjHasFaces = false;
 					}
@@ -291,7 +291,7 @@ public class LoaderOBJ extends AMeshLoader {
 			buffer.close();
 
 			if(currentObjHasFaces) {
-				RajLog.i("Parsing object: " + currObjIndexData.targetObj.getName());
+				Timber.i("Parsing object: " + currObjIndexData.targetObj.getName());
 				objIndices.add(currObjIndexData);
 			}
 
@@ -323,7 +323,7 @@ public class LoaderOBJ extends AMeshLoader {
 					aVertices[vertexIndex+2] = vertices.get(faceIndex + 2) - centroid[2];
 					aIndices[i] = i;
 				} catch(ArrayIndexOutOfBoundsException e) {
-					RajLog.d("Obj array index out of bounds: " + vertexIndex + ", " + faceIndex);
+					Timber.d("Obj array index out of bounds: " + vertexIndex + ", " + faceIndex);
 				}
 			}
 			if(texCoords != null && texCoords.size() > 0) {
@@ -346,7 +346,7 @@ public class LoaderOBJ extends AMeshLoader {
 				int normalIndex = oid.normalIndices.get(i) * 3;
 				int ni = i * 3;
 				if(normals.size() == 0) {
-					RajLog.e("["+getClass().getName()+"] There are no normals specified for this model. Please re-export with normals.");
+					Timber.e("["+getClass().getName()+"] There are no normals specified for this model. Please re-export with normals.");
 					throw new ParsingException("["+getClass().getName()+"] There are no normals specified for this model. Please re-export with normals.");
 				}
 				aNormals[ni] = normals.get(normalIndex);
@@ -439,7 +439,7 @@ public class LoaderOBJ extends AMeshLoader {
 			mParent = Object3D.class.getDeclaredField("mParent");
 			mParent.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			RajLog.e("Reflection error Object3D.mParent");
+			Timber.e("Reflection error Object3D.mParent");
 		}
 	}
 
@@ -454,7 +454,7 @@ public class LoaderOBJ extends AMeshLoader {
 			parent.addChild(object);
 			mParent.set(object, parent);
 		} catch(Exception e) {
-			RajLog.e("Reflection error Object3D.mParent");
+			Timber.e("Reflection error Object3D.mParent");
 		}
 	}
 
@@ -514,7 +514,7 @@ public class LoaderOBJ extends AMeshLoader {
 			try {
 				buffer = getBufferedReader(materialLibPath);
 			} catch (Exception e) {
-				RajLog.e("["+getClass().getCanonicalName()+"] Could not find material library file (.mtl).");
+				Timber.e("["+getClass().getCanonicalName()+"] Could not find material library file (.mtl).");
 			}
 
 			String line;
@@ -538,7 +538,7 @@ public class LoaderOBJ extends AMeshLoader {
 						if(matDef != null) mMaterials.add(matDef);
 						matDef = new MaterialDef();
 						matDef.name = parts.hasMoreTokens() ? parts.nextToken() : "";
-						RajLog.d("Parsing material: " + matDef.name);
+						Timber.d("Parsing material: " + matDef.name);
 					} else if(type.equals(DIFFUSE_COLOR)) {
 						matDef.diffuseColor = getColorFromParts(parts);
 					} else if(type.equals(AMBIENT_COLOR)) {
@@ -572,7 +572,7 @@ public class LoaderOBJ extends AMeshLoader {
 
 		public void setMaterial(Object3D object, String materialName) throws TextureException, FileNotFoundException {
 			if(materialName == null) {
-				RajLog.i(object.getName() + " has no material definition." );
+				Timber.i(object.getName() + " has no material definition." );
 				return;
 			}
 
