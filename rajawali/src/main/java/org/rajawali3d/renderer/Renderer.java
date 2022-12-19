@@ -42,7 +42,7 @@ import org.rajawali3d.scene.Scene;
 import org.rajawali3d.util.Capabilities;
 import org.rajawali3d.util.ObjectColorPicker;
 import org.rajawali3d.util.OnFPSUpdateListener;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 import org.rajawali3d.util.RawShaderLoader;
 import org.rajawali3d.view.ISurface;
 
@@ -163,7 +163,7 @@ public abstract class Renderer implements ISurfaceRenderer {
     }
 
     public Renderer(Context context, boolean registerForResources) {
-        RajLog.i("Rajawali " + BuildConfig.BUILD_TYPE + " " + BuildConfig.VERSION_NAME);
+        Timber.i("Rajawali " + BuildConfig.BUILD_TYPE + " " + BuildConfig.VERSION_NAME);
         mHaveRegisteredForResources = registerForResources;
         mContext = context;
         RawShaderLoader.mContext = new WeakReference<>(context);
@@ -251,7 +251,7 @@ public abstract class Renderer implements ISurfaceRenderer {
     }
 
     public void startRendering() {
-        RajLog.d("startRendering()");
+        Timber.d("startRendering()");
         if (!mSceneInitialized) {
             return;
         }
@@ -305,7 +305,7 @@ public abstract class Renderer implements ISurfaceRenderer {
         Capabilities.getInstance();
 
         String[] versionString = (GLES20.glGetString(GLES20.GL_VERSION)).split(" ");
-        RajLog.d("Open GL ES Version String: " + GLES20.glGetString(GLES20.GL_VERSION));
+        Timber.d("Open GL ES Version String: " + GLES20.glGetString(GLES20.GL_VERSION));
         if (versionString.length >= 3) {
             String[] versionParts = versionString[2].split("\\.");
             if (versionParts.length >= 2) {
@@ -314,7 +314,7 @@ public abstract class Renderer implements ISurfaceRenderer {
                 mGLES_Minor_Version = Integer.parseInt(versionParts[1]);
             }
         }
-        RajLog.d(String.format(Locale.US, "Derived GL ES Version: %d.%d", mGLES_Major_Version, mGLES_Minor_Version));
+        Timber.d(String.format(Locale.US, "Derived GL ES Version: %d.%d", mGLES_Major_Version, mGLES_Minor_Version));
 
         if (!mHaveRegisteredForResources) {
             mTextureManager.registerRenderer(this);

@@ -19,7 +19,7 @@ import org.rajawali3d.materials.textures.ATexture.FilterType;
 import org.rajawali3d.materials.textures.ATexture.WrapType;
 import org.rajawali3d.materials.textures.RenderTargetTexture;
 import org.rajawali3d.materials.textures.TextureManager;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 /**
  * Defines configurations for a given render target.
@@ -305,7 +305,7 @@ public class RenderTarget {
 				break;
 			case GLES20.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
 				errorString = "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS: not all attached images have the same width and height.";
-				RajLog.i(mWidth + ", " + mHeight + " || " + mTexture.getWidth() + ", " + mTexture.getHeight());
+				Timber.i(mWidth + ", " + mHeight + " || " + mTexture.getWidth() + ", " + mTexture.getHeight());
 				break;
 			}
 			throw new RuntimeException(errorString);
@@ -329,7 +329,7 @@ public class RenderTarget {
 		if (error != GLES20.GL_NO_ERROR)
 		{
 			String description = GLU.gluErrorString(error);
-			RajLog.e(ex + "[" + error + "]: " + description);
+			Timber.e(ex + "[" + error + "]: " + description);
 			throw new RuntimeException(ex + "[" + error + "]: " + description);
 		}
 	}

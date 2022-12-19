@@ -41,7 +41,7 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.vector.Vector2;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -124,7 +124,7 @@ public class LoaderFBX extends AMeshLoader {
 			try {
 				buffer = new BufferedReader(new FileReader(mFile));
 			} catch (FileNotFoundException e) {
-				RajLog.e("["+getClass().getCanonicalName()+"] Could not find file.");
+				Timber.e("["+getClass().getCanonicalName()+"] Could not find file.");
 				throw new ParsingException(e);
 			}
 		}

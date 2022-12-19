@@ -6,7 +6,7 @@ android {
     compileSdkVersion rootProject.compileSdk
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion rootProject.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.5.0'
+    api "com.github.AppDevNext.Logcat:LogcatCoreLib:2.12"
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
