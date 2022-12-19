@@ -20,6 +20,7 @@ import org.rajawali3d.materials.methods.DiffuseMethod.Lambert
 import org.rajawali3d.math.vector.Vector3
 import org.rajawali3d.renderer.ISurfaceRenderer
 import org.rajawali3d.util.ObjectColorPicker
+import timber.log.Timber
 
 @SuppressLint("SetTextI18n")
 class ObjectRotateFragment : AExampleFragment() {
@@ -107,7 +108,7 @@ class ObjectRotateFragment : AExampleFragment() {
                 container1.addChild(monkey)
                 picker.registerObject(monkey)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
 
