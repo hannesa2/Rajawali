@@ -2,7 +2,6 @@ package org.rajawali3d.examples.examples.general;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
-import android.util.Log;
 import org.rajawali3d.Object3D;
 import org.rajawali3d.examples.R;
 import org.rajawali3d.examples.examples.AExampleFragment;
@@ -12,9 +11,9 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Sphere;
 
-public class BasicFragment extends AExampleFragment {
+import timber.log.Timber;
 
-	private static final String TAG = "BasicFragment";
+public class BasicFragment extends AExampleFragment {
 
 	@Override
     public AExampleRenderer createRenderer() {
@@ -43,7 +42,7 @@ public class BasicFragment extends AExampleFragment {
 				e.printStackTrace();
 			}
 
-			Log.d(TAG, "Camera initial orientation: " + getCurrentCamera().getOrientation());
+			Timber.d("Camera initial orientation: %s", getCurrentCamera().getOrientation());
             getCurrentCamera().enableLookAt();
             getCurrentCamera().setLookAt(0, 0, 0);
             getCurrentCamera().setZ(6);
