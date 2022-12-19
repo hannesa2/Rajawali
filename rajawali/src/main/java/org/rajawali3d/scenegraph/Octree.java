@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 
 /**
@@ -191,7 +191,7 @@ public class Octree extends A_nAABBTree {
 	 */
 	@Override
 	protected void destroy() {
-		RajLog.d("[" + this.getClass().getName() + "] Destroying octree node: " + this);
+		Timber.d("[" + this.getClass().getName() + "] Destroying octree node: " + this);
 		//TODO: Implement
 	}
 
@@ -201,7 +201,7 @@ public class Octree extends A_nAABBTree {
 	 */
 	@Override
 	protected void split() {
-		RajLog.d("[" + this.getClass().getName() + "] Spliting node: " + this);
+		Timber.d("[" + this.getClass().getName() + "] Spliting node: " + this);
 		//Populate child array
 		for (int i = 0; i < CHILD_COUNT; ++i) {
 			if (mChildren[i] == null) {

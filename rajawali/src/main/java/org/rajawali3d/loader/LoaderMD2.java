@@ -38,7 +38,7 @@ import org.rajawali3d.materials.textures.TextureManager;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.Renderer;
 import org.rajawali3d.util.LittleEndianDataInputStream;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class LoaderMD2 extends AMeshLoader implements IAnimatedMeshLoader {
 
@@ -81,7 +81,7 @@ public class LoaderMD2 extends AMeshLoader implements IAnimatedMeshLoader {
 			try {
 				stream = new BufferedInputStream(new FileInputStream(mFile));
 			} catch (FileNotFoundException e) {
-				RajLog.e("[" + getClass().getCanonicalName() + "] Could not find file.");
+				Timber.e("[" + getClass().getCanonicalName() + "] Could not find file.");
 				throw new ParsingException(e);
 			}
 		}
@@ -160,7 +160,7 @@ public class LoaderMD2 extends AMeshLoader implements IAnimatedMeshLoader {
 		is.close();
 		if (mFile == null) {
 			if (mCurrentTextureName == null) {
-				RajLog.e("[" + getClass().getCanonicalName()
+				Timber.e("[" + getClass().getCanonicalName()
 						+ "] No texture name was specified. No material will be created.");
 				return;
 			}
@@ -172,7 +172,7 @@ public class LoaderMD2 extends AMeshLoader implements IAnimatedMeshLoader {
 				String filePath = mFile.getParent() + File.separatorChar + mCurrentTextureName;
 				mTexture = BitmapFactory.decodeFile(filePath);
 			} catch (Exception e) {
-				RajLog.e("[" + getClass().getCanonicalName() + "] Could not find file " + mCurrentTextureName);
+				Timber.e("[" + getClass().getCanonicalName() + "] Could not find file " + mCurrentTextureName);
 				e.printStackTrace();
 				return;
 			}

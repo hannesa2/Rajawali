@@ -29,7 +29,7 @@ import org.rajawali3d.loader.ALoader;
 import org.rajawali3d.loader.IAnimationSequenceLoader;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.renderer.Renderer;
-import org.rajawali3d.util.RajLog;
+import timber.log.Timber;
 
 public class LoaderMD5Anim extends ALoader implements IAnimationSequenceLoader {
 	private static final String MD5_VERSION = "MD5Version";
@@ -74,7 +74,7 @@ public class LoaderMD5Anim extends ALoader implements IAnimationSequenceLoader {
 			try {
 				buffer = new BufferedReader(new FileReader(mFile));
 			} catch (FileNotFoundException e) {
-				RajLog.e("["+getClass().getCanonicalName()+"] Could not find file.");
+				Timber.e("["+getClass().getCanonicalName()+"] Could not find file.");
 				e.printStackTrace();
 			}
 		}
