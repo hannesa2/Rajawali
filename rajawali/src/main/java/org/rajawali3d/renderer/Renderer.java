@@ -311,7 +311,6 @@ public abstract class Renderer implements ISurfaceRenderer {
         Timber.v("version= %s", cap.getVersion());
 
         String[] versionString = (GLES20.glGetString(GLES20.GL_VERSION)).split(" ");
-        Timber.d("Open GL ES Version String: " + GLES20.glGetString(GLES20.GL_VERSION));
         if (versionString.length >= 3) {
             String[] versionParts = versionString[2].split("\\.");
             if (versionParts.length >= 2) {
