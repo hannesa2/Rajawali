@@ -3,6 +3,7 @@ package org.rajawali3d.examples.recycler
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.rajawali3d.examples.R
 import org.rajawali3d.examples.data.INamed
 import org.rajawali3d.examples.recycler.ReferencedAdapter.IndexReference
 
@@ -13,7 +14,7 @@ internal class NamedReferenceViewHolder<K : INamed?, T : IndexReference<K>?>(ite
     private var referenceClickListener: IndexReferenceClickListener<T>? = null
 
     init {
-        textViewName = itemView.findViewById(android.R.id.text1)
+        textViewName = itemView.findViewById(R.id.textItem)
         textViewName.setOnClickListener(this)
     }
 
