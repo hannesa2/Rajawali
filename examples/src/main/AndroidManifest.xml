@@ -39,7 +39,7 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name_main"
-        android:name="info.hannes.logcat.LoggingApplication"
+        android:name=".RajawaliApplication"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
