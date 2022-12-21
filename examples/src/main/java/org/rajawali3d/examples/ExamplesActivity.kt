@@ -6,7 +6,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import org.rajawali3d.examples.data.Example
-import org.rajawali3d.examples.examples.AExampleFragment
 import timber.log.Timber
 
 class ExamplesActivity : AppCompatActivity() {
@@ -39,13 +38,8 @@ class ExamplesActivity : AppCompatActivity() {
         val example = extras.getParcelable<Example>(EXTRA_EXAMPLE) ?: throw NullPointerException()
         val aClass = example.type
         try {
-            val bundle = Bundle().apply {
-                putString(AExampleFragment.BUNDLE_EXAMPLE_URL, example.path)
-            }
-
             Timber.i("Start Fragment ${aClass.simpleName}")
             val fragment = aClass.newInstance() as Fragment
-            fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, aClass.name)
                 .commit()
