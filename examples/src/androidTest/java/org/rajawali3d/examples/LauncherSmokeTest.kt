@@ -1,8 +1,12 @@
 package org.rajawali3d.examples
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.graphics.writeToTestStorage
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.screenshot.captureToBitmap
@@ -15,6 +19,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.rajawali3d.examples.data.ExamplesDataSet
+import org.rajawali3d.examples.tools.RecyclerViewMatcher
 import timber.log.Timber
 
 @RunWith(AndroidJUnit4::class)
@@ -57,4 +62,18 @@ class LauncherSmokeTest : BaseExampleTest() {
         }
     }
 
+    override fun clickOnExample(itemIndex: Int) {
+        onView(withId(R.id.recycler)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(itemIndex))
+
+        onView(RecyclerViewMatcher(R.id.recycler).atPositionOnView(itemIndex, R.id.textItem))
+            .check(matches(isDisplayed()))
+            .perform(click())
+        //  Intents.intended(hasComponent(ExamplesActivity::class.java.name))
+
+        onView(isRoot())
+            .captureToBitmap()
+            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
+
+        Espresso.pressBack()
+    }
 }
