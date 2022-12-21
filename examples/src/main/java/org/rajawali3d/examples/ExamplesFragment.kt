@@ -6,7 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.rajawali3d.examples.data.DataSet.Companion.instance
+import org.rajawali3d.examples.data.ExamplesDataSet.Companion.instance
 import org.rajawali3d.examples.recycler.CategoryAdapter
 
 class ExamplesFragment : Fragment(), SearchView.OnQueryTextListener {
