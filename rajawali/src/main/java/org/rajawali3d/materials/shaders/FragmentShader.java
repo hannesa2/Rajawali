@@ -23,9 +23,8 @@ public class FragmentShader extends AShader {
     private RFloat muColorInfluence;
 
     private RVec2 mvTextureCoord;
-    @SuppressWarnings("unused")
-    private RVec3 mvCubeTextureCoord;
     private RVec3 mvNormal;
+    private RVec3 mvAmbientColor;
     private RVec4 mvColor;
 
     private RVec4 mgColor;
@@ -68,9 +67,11 @@ public class FragmentShader extends AShader {
         // -- varyings
 
         mvTextureCoord = (RVec2) addVarying(DefaultShaderVar.V_TEXTURE_COORD);
-        if(mHasCubeMaps)
+        RVec3 mvCubeTextureCoord;
+        if (mHasCubeMaps)
             mvCubeTextureCoord = (RVec3) addVarying(DefaultShaderVar.V_CUBE_TEXTURE_COORD);
         mvNormal = (RVec3) addVarying(DefaultShaderVar.V_NORMAL);
+
         mvColor = (RVec4) addVarying(DefaultShaderVar.V_COLOR);
         addVarying(DefaultShaderVar.V_EYE_DIR);
 
