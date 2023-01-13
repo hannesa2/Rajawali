@@ -68,19 +68,19 @@ import org.rajawali3d.examples.examples.scene.SceneFrameCallbackFragment
 import org.rajawali3d.examples.examples.scene.ObjectAddRemoveFragment
 import java.util.*
 
-class DataSet private constructor() {
+class ExamplesDataSet private constructor() {
     val categories: List<Category> = createCategories()
 
     companion object {
         @JvmStatic
         @get:Synchronized
         @Volatile
-        var instance: DataSet? = null
+        var instance: ExamplesDataSet? = null
             get() {
                 if (field == null) {
-                    synchronized(DataSet::class.java) {
+                    synchronized(ExamplesDataSet::class.java) {
                         if (field == null) {
-                            field = DataSet()
+                            field = ExamplesDataSet()
                         }
                     }
                 }
