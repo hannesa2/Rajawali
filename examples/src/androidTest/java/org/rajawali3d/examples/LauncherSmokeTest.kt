@@ -21,6 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
+import org.rajawali3d.examples.data.Example
 import org.rajawali3d.examples.data.ExamplesDataSet
 import org.rajawali3d.examples.tools.RecyclerViewMatcher
 
@@ -59,16 +60,16 @@ class LauncherSmokeTest {
 
         var overallIndex = 0
         ExamplesDataSet.instance?.categories?.forEach {
-            it.examples.forEach { _ ->
+            it.examples.forEach { example ->
                 overallIndex++
                 println("Click on $overallIndex")
-                clickOnExample(overallIndex)
+                clickOnExample(overallIndex, example)
             }
             overallIndex++
         }
     }
 
-    private fun clickOnExample(itemIndex: Int) {
+    private fun clickOnExample(itemIndex: Int, example: Example) {
         onView(withId(R.id.recycler)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(itemIndex))
 
         onView(RecyclerViewMatcher(R.id.recycler).atPositionOnView(itemIndex, R.id.textItem))
@@ -77,8 +78,11 @@ class LauncherSmokeTest {
         //  Intents.intended(hasComponent(ExamplesActivity::class.java.name))
 
         takeScreenshot()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
+            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex-${example.name}")
 
+        onView(isRoot())
+            .captureToBitmap()
+            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-R$itemIndex-${example.name}")
         Espresso.pressBack()
     }
 }
