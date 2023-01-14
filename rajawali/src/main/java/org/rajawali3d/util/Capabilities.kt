@@ -309,8 +309,6 @@ class Capabilities private constructor() {
 
         /**
          * The EGL major version number of this device.
-         *
-         * @return
          */
         val eGLMajorVersion: Int
             get() {
@@ -320,8 +318,6 @@ class Capabilities private constructor() {
 
         /**
          * The EGL minor version number of this device.
-         *
-         * @return
          */
         val eGLMinorVersion: Int
             get() {
@@ -331,8 +327,6 @@ class Capabilities private constructor() {
 
         /**
          * The highest GL ES major version number supported by this device.
-         *
-         * @return
          */
         @JvmStatic
         val gLESMajorVersion: Int
