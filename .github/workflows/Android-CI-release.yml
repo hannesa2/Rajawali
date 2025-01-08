@@ -43,13 +43,13 @@ jobs:
 #          GITHUBACTOR: ${{ secrets.GITHUBACTOR }}
 #          GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
 
-      - name: Publish mavenCentral (stage)
-        run: |
-          signing/decrypt.sh
-          cat signing/gradle_secure.properties >> gradle.properties
-          ./gradlew rajawali:publishMavenPublicationToMavenCentralRepository
-        env:
-          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
+#      - name: Publish mavenCentral (stage)
+#        run: |
+#          signing/decrypt.sh
+#          cat signing/gradle_secure.properties >> gradle.properties
+#          ./gradlew rajawali:publishMavenPublicationToMavenCentralRepository
+#        env:
+#          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
