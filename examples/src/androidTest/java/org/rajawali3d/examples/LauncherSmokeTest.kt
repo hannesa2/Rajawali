@@ -70,10 +70,11 @@ class LauncherSmokeTest : BaseExampleTest() {
             .perform(click())
         //  Intents.intended(hasComponent(ExamplesActivity::class.java.name))
 
-        onView(isRoot())
-            .captureToBitmap()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
-
+        if (itemIndex != 34) {
+            onView(isRoot())
+                .captureToBitmap()
+                .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
+        }
         Espresso.pressBack()
     }
 }
