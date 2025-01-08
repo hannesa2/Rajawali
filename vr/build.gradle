@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
@@ -11,7 +11,7 @@ android {
     }
     packagingOptions {
         jniLibs {
-            pickFirsts += ['lib/armeabi-v7a/libvraudio_engine.so', 'lib/armeabi-v7a/libvrtoolkit.so']
+            pickFirsts += ["lib/armeabi-v7a/libvraudio_engine.so", "lib/armeabi-v7a/libvrtoolkit.so"]
         }
     }
 
@@ -20,24 +20,24 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     lint {
         abortOnError false
     }
-    namespace 'org.rajawali3d.vr'
+    namespace "org.rajawali3d.vr"
 
 
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation "androidx.legacy:legacy-support-v13:1.0.0"
+    implementation "androidx.annotation:annotation:1.5.0"
 
-    implementation project(':rajawali')
+    implementation project(":rajawali")
 }
 
-apply from: '../publish.gradle'
+apply from: "../publish.gradle"

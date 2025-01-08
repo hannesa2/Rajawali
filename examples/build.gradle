@@ -1,6 +1,6 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
 
 android {
     compileSdk rootProject.compileSdk
@@ -13,7 +13,7 @@ android {
         versionName getTag()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments useTestStorageService: 'true'
+        testInstrumentationRunnerArguments useTestStorageService: "true"
     }
 
     buildTypes {
@@ -22,42 +22,42 @@ android {
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
     packagingOptions {
         jniLibs {
-            pickFirsts += ['lib/armeabi-v7a/libvraudio_engine.so', 'lib/armeabi-v7a/libvrtoolkit.so']
+            pickFirsts += ["lib/armeabi-v7a/libvraudio_engine.so", "lib/armeabi-v7a/libvrtoolkit.so"]
         }
     }
 
     lint {
         abortOnError false
     }
-    namespace 'org.rajawali3d.examples'
+    namespace "org.rajawali3d.examples"
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "androidx.legacy:legacy-support-v13:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.6.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "com.google.code.gson:gson:2.10.1"
     implementation "androidx.core:core-ktx:1.9.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.github.AppDevNext.Logcat:LogcatCoreUI:2.12"
 
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
-    implementation project(':rajawali')
+    implementation project(":rajawali")
 
-    wearApp project(':wear-example')
+    wearApp project(":wear-example")
 
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
     androidTestUtil "androidx.test.services:test-services:1.4.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     androidTestImplementation "androidx.test:rules:1.5.0" // GrantPermissionRule
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
 }
