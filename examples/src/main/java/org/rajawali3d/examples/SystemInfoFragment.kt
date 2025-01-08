@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import org.rajawali3d.BuildConfig
 import org.rajawali3d.util.Capabilities
 
 
