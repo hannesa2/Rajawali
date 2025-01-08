@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace "org.rajawali3d"
     compileSdk rootProject.compileSdk
 
     defaultConfig {
@@ -13,6 +14,11 @@ android {
         // VERSION_NAME no longer available as of 4.1
         // https://issuetracker.google.com/issues/158695880
         buildConfigField "String", "VERSION_NAME", "\"${getTag()}\""
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -40,7 +46,6 @@ android {
     lint {
         abortOnError false
     }
-    namespace "org.rajawali3d"
 }
 
 dependencies {
