@@ -2,8 +2,10 @@ package org.rajawali3d.examples.examples.animation;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,22 +73,16 @@ public class MD2Fragment extends AExampleFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.md2_fragment_button_salute:
-                ((MD2Renderer) mRenderer).playAnimation("salute");
-                break;
-            case R.id.md2_fragment_button_death:
-                ((MD2Renderer) mRenderer).playAnimation("death1");
-                break;
-            case R.id.md2_fragment_button_walk:
-                ((MD2Renderer) mRenderer).playAnimation("crwalk");
-                break;
-            case R.id.md2_fragment_button_wave:
-                ((MD2Renderer) mRenderer).playAnimation("wave");
-                break;
-            case R.id.md2_fragment_button_loop_all:
-                ((MD2Renderer) mRenderer).playAnimation("loop all");
-                break;
+        if (v.getId() == R.id.md2_fragment_button_salute) {
+            ((MD2Renderer) mRenderer).playAnimation("salute");
+        } else if (v.getId() == R.id.md2_fragment_button_death) {
+            ((MD2Renderer) mRenderer).playAnimation("death1");
+        } else if (v.getId() == R.id.md2_fragment_button_walk) {
+            ((MD2Renderer) mRenderer).playAnimation("crwalk");
+        } else if (v.getId() == R.id.md2_fragment_button_wave) {
+            ((MD2Renderer) mRenderer).playAnimation("wave");
+        } else if (v.getId() == R.id.md2_fragment_button_loop_all) {
+            ((MD2Renderer) mRenderer).playAnimation("loop all");
         }
     }
 
