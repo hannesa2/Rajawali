@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.compileSdk
+    compileSdk rootProject.compileSdk
 
     defaultConfig {
         minSdkVersion 21
