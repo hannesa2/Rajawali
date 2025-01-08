@@ -15,6 +15,10 @@ android {
         buildConfigField "String", "VERSION_NAME", "\"${getTag()}\""
     }
 
+    buildFeatures {
+        buildConfig true
+    }
+
     buildTypes {
         debug {
             testCoverageEnabled true
