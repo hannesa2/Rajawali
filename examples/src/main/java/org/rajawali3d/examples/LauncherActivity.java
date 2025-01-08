@@ -15,7 +15,6 @@ import android.widget.Toast;
 import org.rajawali3d.examples.wallpaper.WallpaperPreferenceActivity;
 
 import info.hannes.logcat.ui.BothLogActivity;
-import info.hannes.logcat.ui.LogcatActivity;
 import timber.log.Timber;
 
 public class LauncherActivity extends AppCompatActivity {
