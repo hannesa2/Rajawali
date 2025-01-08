@@ -1,6 +1,5 @@
 package org.rajawali3d.examples
 
-import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -38,7 +37,8 @@ class LauncherSmokeTest : BaseExampleTest() {
     @Test
     fun smokeTestSimplyStart() {
         Thread.sleep(300)
-        takeScreenshot()
+        onView(isRoot())
+            .captureToBitmap()
             .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A")
 
         onView(withId(R.id.recycler)).check(matches(isDisplayed()))
