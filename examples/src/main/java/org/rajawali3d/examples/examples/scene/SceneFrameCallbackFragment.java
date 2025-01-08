@@ -22,21 +22,21 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.primitives.Sphere;
 import org.rajawali3d.scene.ASceneFrameCallback;
 
-public class SceneFrameCallbackFragment extends AExampleFragment {
+import timber.log.Timber;
 
-    private TextView mRenderTimeView;
+public class SceneFrameCallbackFragment extends AExampleFragment {
 
     private Handler mHandler;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRenderTimeView = new TextView(getActivity());
+        TextView mRenderTimeView = new TextView(getActivity());
         final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         mLayout.addView(mRenderTimeView, params);
         mRenderTimeView.bringToFront();
         mRenderTimeView.setTextColor(getResources().getColor(android.R.color.white));
-        mHandler = new Handler(getActivity().getMainLooper());
+        mHandler = new Handler(requireActivity().getMainLooper());
 
         return mLayout;
     }
@@ -48,7 +48,6 @@ public class SceneFrameCallbackFragment extends AExampleFragment {
 
     private final class BasicRenderer extends AExampleRenderer {
 
-        private DirectionalLight mLight;
         private Object3D mSphere;
 
         public BasicRenderer(Context context, @Nullable AExampleFragment fragment) {
@@ -57,7 +56,7 @@ public class SceneFrameCallbackFragment extends AExampleFragment {
 
         @Override
         protected void initScene() {
-            mLight = new DirectionalLight(1f, 0.2f, -1.0f); // set the direction
+            DirectionalLight mLight = new DirectionalLight(1f, 0.2f, -1.0f); // set the direction
             mLight.setColor(1.0f, 1.0f, 1.0f);
             mLight.setPower(2);
 
@@ -72,7 +71,7 @@ public class SceneFrameCallbackFragment extends AExampleFragment {
                 mSphere.setMaterial(material);
                 getCurrentScene().addChild(mSphere);
             } catch (ATexture.TextureException e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
 
             getCurrentCamera().setZ(6);
@@ -101,12 +100,7 @@ public class SceneFrameCallbackFragment extends AExampleFragment {
 
         @Override
         public void onPostFrame(final long sceneTime, double deltaTime) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRenderTimeView.setText("Scene Time: " + sceneTime + "ns");
-                }
-            });
+            mHandler.post(() -> Timber.d("Scene Time: " + sceneTime + "ns"));
         }
 
         @Override

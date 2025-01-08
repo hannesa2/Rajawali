@@ -26,7 +26,7 @@ abstract class BaseExampleTest {
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
-    protected fun clickOnExample(itemIndex: Int) {
+    protected open fun clickOnExample(itemIndex: Int) {
         onView(withId(R.id.recycler)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(itemIndex))
 
         onView(RecyclerViewMatcher(R.id.recycler).atPositionOnView(itemIndex, R.id.textItem))
