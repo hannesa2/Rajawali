@@ -9,7 +9,7 @@ Rajawali is a 3D engine for Android based on OpenGL ES 2.0/3.0. It can be used f
 
 Numerous apps and live wallpapers have been made with Rajawali. [Check them out!](https://plus.google.com/u/0/communities/116529974266844528013/stream/526227da-cf2d-46f9-8ad6-beaca7b8ddd5)
 
-## Using Rajawali with Jitpack
+## Using Rajawali with jitpack.io
 
 Just add the following lines to your `build.gradle` Here you see more details https://jitpack.io/#hannesa2/rajawali
 
