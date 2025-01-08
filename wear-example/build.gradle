@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.compileSdk
+    compileSdk rootProject.compileSdk
 
     defaultConfig {
         applicationId "org.rajawali3d.examples"
