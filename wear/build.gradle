@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
@@ -13,21 +13,21 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     lint {
         abortOnError false
     }
-    namespace 'org.rajawali3d.wear'
+    namespace "org.rajawali3d.wear"
 }
 
 dependencies {
-    implementation project(':rajawali')
+    implementation project(":rajawali")
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:4.13.2"
 
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
+    implementation "androidx.legacy:legacy-support-v13:1.0.0"
 
     // Wear
     implementation "com.google.android.support:wearable:$wear"
@@ -35,4 +35,4 @@ dependencies {
     implementation "com.google.android.gms:play-services-wearable:$wearService"
 }
 
-apply from: '../publish.gradle'
+apply from: "../publish.gradle"

@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
@@ -12,7 +12,7 @@ android {
 
         // VERSION_NAME no longer available as of 4.1
         // https://issuetracker.google.com/issues/158695880
-        buildConfigField 'String', 'VERSION_NAME', "\"${getTag()}\""
+        buildConfigField "String", "VERSION_NAME", "\"${getTag()}\""
     }
 
     buildTypes {
@@ -22,7 +22,7 @@ android {
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 
@@ -36,16 +36,16 @@ android {
     lint {
         abortOnError false
     }
-    namespace 'org.rajawali3d'
+    namespace "org.rajawali3d"
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation "androidx.annotation:annotation:1.5.0"
     api "com.github.AppDevNext.Logcat:LogcatCoreLib:2.12"
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:4.13.2"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation "androidx.test:rules:1.5.0"
     androidTestImplementation "androidx.test:runner:1.5.2"
     androidTestImplementation "androidx.test:core:1.5.0"
 
@@ -55,5 +55,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
-apply from: '../publish.gradle'
-apply plugin: 'kotlin-android'
+apply from: "../publish.gradle"
+apply plugin: "kotlin-android"

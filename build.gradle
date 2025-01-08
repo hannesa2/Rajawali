@@ -1,16 +1,16 @@
 import org.gradle.internal.jvm.Jvm
 
 buildscript {
-    ext.kotlin_version = '1.7.22'
+    ext.kotlin_version = "1.7.22"
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "com.android.tools.build:gradle:7.4.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:2.0.0"
-        classpath 'digital.wup:android-maven-publish:3.6.3'
+        classpath "digital.wup:android-maven-publish:3.6.3"
         classpath "org.jacoco:org.jacoco.core:0.8.8"
     }
 }
@@ -30,12 +30,12 @@ ext {
 println("Building project ${getTag()}")
 
 subprojects {
-    group 'org.rajawali3d'
+    group "org.rajawali3d"
 
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -43,13 +43,13 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-@SuppressWarnings('unused')
+@SuppressWarnings("unused")
 static def getTag() {
     def process = "git describe --tags".execute()
     return process.text.toString().trim()
 }
 
-@SuppressWarnings('unused')
+@SuppressWarnings("unused")
 static def getGitCommitCount() {
     def process = "git rev-list HEAD --count".execute()
     return process.text.toInteger()
