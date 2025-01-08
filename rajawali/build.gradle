@@ -1,5 +1,8 @@
 plugins {
-    id "com.android.library"
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'kotlin-android'
+    id "com.vanniktech.maven.publish" version "0.30.0"
 }
 
 android {
@@ -64,5 +67,43 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
-apply from: "../publish.gradle"
-apply plugin: "kotlin-android"
+mavenPublishing {
+    pom {
+        name = "Rajawali"
+        description = "Android OpenGL ES 2.0/3.0 Engine"
+        inceptionYear = "2025"
+        url = "https://github.com/hannesa2/Rajawali"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "hannesa2"
+                name = "hannesa2"
+                url = "https://github.com/hannesa2/"
+            }
+        }
+        scm {
+            url = "https://github.com/hannesa2/Rajawali/"
+            connection = "scm:git:git://github.com/hannesa2/Rajawali.git"
+            developerConnection = "scm:git:git://github.com/hannesa2/Rajawali.git"
+        }
+    }
+
+    // Github packages
+    repositories {
+        maven {
+            version = version+"-SNAPSHOT"
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/hannesa2/Rajawali"
+            credentials {
+                username = System.getenv("GITHUBACTOR")
+                password = System.getenv("GITHUBTOKEN")
+            }
+        }
+    }
+}
