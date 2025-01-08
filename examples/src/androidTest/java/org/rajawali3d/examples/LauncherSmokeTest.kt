@@ -8,6 +8,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.screenshot.captureToBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import info.hannes.timber.DebugFormatTree
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -15,6 +16,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.rajawali3d.examples.data.ExamplesDataSet
+import timber.log.Timber
 
 @RunWith(AndroidJUnit4::class)
 class LauncherSmokeTest : BaseExampleTest() {
@@ -23,10 +25,15 @@ class LauncherSmokeTest : BaseExampleTest() {
     var nameRule = TestName()
 
     @Before
-    fun setUp() = Intents.init()
+    fun setUp() {
+        Intents.init()
+        Timber.plant(DebugFormatTree())
+    }
 
     @After
-    fun cleanUp() = Intents.release()
+    fun cleanUp() {
+        Intents.release()
+    }
 
     @Test
     fun smokeTestSimplyStart() {
@@ -43,7 +50,7 @@ class LauncherSmokeTest : BaseExampleTest() {
         ExamplesDataSet.instance?.categories?.forEach {
             it.examples.forEach { _ ->
                 overallIndex++
-                println("Click on $overallIndex")
+                Timber.d("Click on $overallIndex")
                 clickOnExample(overallIndex)
             }
             overallIndex++
