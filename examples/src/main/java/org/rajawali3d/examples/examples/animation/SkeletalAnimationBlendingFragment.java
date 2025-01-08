@@ -2,8 +2,10 @@ package org.rajawali3d.examples.examples.animation;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,20 +52,14 @@ public class SkeletalAnimationBlendingFragment extends AExampleFragment implemen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button1:
-                ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(0);
-                break;
-            case R.id.button2:
-                ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(1);
-                break;
-            case R.id.button3:
-                ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(2);
-                break;
-            case R.id.button4:
-                ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(3);
-                break;
-            default:
+        if (v.getId() == R.id.button1) {
+            ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(0);
+        } else if (v.getId() == R.id.button2) {
+            ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(1);
+        } else if (v.getId() == R.id.button3) {
+            ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(2);
+        } else if (v.getId() == R.id.button4) {
+            ((SkeletalAnimationBlendingRenderer) mRenderer).transitionAnimation(3);
         }
     }
 

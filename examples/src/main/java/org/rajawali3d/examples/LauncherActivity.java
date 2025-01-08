@@ -50,22 +50,20 @@ public class LauncherActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS:
-                if (hasAllPermissions(PERMISSIONS)) {
-                    Timber.d("All permissions granted!");
-                } else {
-                    Toast.makeText(
-                            this,
-                            "Cannot continue running Rajawali Examples without all required permissions.",
-                            Toast.LENGTH_SHORT
-                    ).show();
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (hasAllPermissions(PERMISSIONS)) {
+                Timber.d("All permissions granted!");
+            } else {
+                Toast.makeText(
+                        this,
+                        "Cannot continue running Rajawali Examples without all required permissions.",
+                        Toast.LENGTH_SHORT
+                ).show();
 
-                    finish();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                finish();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -77,15 +75,13 @@ public class LauncherActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_log:
-                startActivity(new Intent(this, BothLogActivity.class));
-                return true;
-            case R.id.menu_settings:
-                startActivity(new Intent(this, WallpaperPreferenceActivity.class));
-                return true;
+        if (item.getItemId() == R.id.menu_log) {
+            startActivity(new Intent(this, BothLogActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.menu_settings) {
+            startActivity(new Intent(this, WallpaperPreferenceActivity.class));
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
