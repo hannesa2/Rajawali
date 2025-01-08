@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:1.5.0"
+    implementation "androidx.annotation:annotation:1.9.1"
     api "com.github.AppDevNext.Logcat:LogcatCoreLib:2.12"
     testImplementation "junit:junit:4.13.2"
 
