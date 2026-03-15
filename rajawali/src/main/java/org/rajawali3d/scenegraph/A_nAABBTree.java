@@ -1,11 +1,8 @@
 /**
  * Copyright 2013 Dennis Ippel
- * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -30,13 +27,13 @@ import timber.log.Timber;
  * are left to determine child count and any count specific behavior. This implementation
  * in general uses the methodology described in the tutorial listed below by Paramike, with
  * a few modifications to the behavior. 
- * 
+ * <p>
  * Implementations of this could be Ternary trees (3), Octree (8), Icoseptree (27), etc.
  * The tree will try to nest objects as deeply as possible while trying to maintain an minimal
  * tree structure based on the thresholds set. It is up to the user to determine what thresholds
  * make sense and are optimal for your specific needs as there are tradeoffs associated with
  * them all. The default implementation attempts to strike a reasonable balance.
- * 
+ * <p>
  * This tree design also utilizes an option for overlap between child partitions. This is useful
  * for mimicking some of the behavior of a more complex tree without incurring the complexity. If
  * you specify an overlap percentage, it is more likely that an object near a boundary of the 
@@ -44,12 +41,12 @@ import timber.log.Timber;
  * the parent partition. Note however that in cases where the object is small enough to still be
  * fully contained by both (or more) children, it is added to the parent. This is where a more
  * complex tree would excel, but only in the case over very large object counts.
- * 
+ * <p>
  * By default, this tree will NOT recursively add the children of added objects and NOT
  * recursively remove the children of removed objects.
- * 
+ *
  * @author Jared Woolston (jwoolston@tenkiv.com)
- * @see {@link http://www.piko3d.com/tutorials/space-partitioning-tutorial-piko3ds-dynamic-octree}
+ * @see {@link <a href="http://www.piko3d.com/tutorials/space-partitioning-tutorial-piko3ds-dynamic-octree">...</a>}
  */
 public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 
@@ -94,10 +91,6 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * Constructor to setup root node with specified merge/split and
 	 * grow/shrink behavior.
 	 * 
-	 * @param maxMembers int containing the divide threshold count. When more 
-	 * members than this are added, a partition will divide into 8 children.
-	 * @param minMembers int containing the merge threshold count. When fewer
-	 * members than this exist, a partition will recursively merge to its ancestors.
 	 * @param overlap int containing the percentage overlap between two adjacent
 	 * partitions. This allows objects to be nested deeper in the tree when they
 	 * would ordinarily span a boundary.
@@ -111,10 +104,6 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * grow/shrink behavior.
 	 * 
 	 * @param parent A_nAABBTree which is the parent of this partition.
-	 * @param maxMembers int containing the divide threshold count. When more 
-	 * members than this are added, a partition will divide into 8 children.
-	 * @param minMembers int containing the merge threshold count. When fewer
-	 * members than this exist, a partition will recursively merge to its ancestors.
 	 * @param overlap int containing the percentage overlap between two adjacent
 	 * partitions. This allows objects to be nested deeper in the tree when they
 	 * would ordinarily span a boundary.
@@ -152,16 +141,14 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * Sets the bounding volume of this node. This should only be called
 	 * for a root node with no children. This sets the initial root node
 	 * to have a volume ~8x the member, centered on the member.
-	 * 
-	 * @param object IGraphNodeMember the member we will be basing
-	 * our bounds on. 
+	 * our bounds on.
 	 */
 	protected void setBounds(IGraphNodeMember member) {
 		//Timber.d("[" + this.getClass().getName() + "] Setting bounds based on member: " + member);
-		if (mMembers.size() != 0 && mParent != null) {return;}
+		if (!mMembers.isEmpty() && mParent != null) {return;}
 		IBoundingVolume volume = member.getTransformedBoundingVolume();
-		BoundingBox bcube = null;
-		BoundingSphere bsphere = null;
+		BoundingBox bcube;
+		BoundingSphere bsphere;
 		Vector3 position = member.getScenePosition();
 		double span_y = 0;
 		double span_x = 0;
@@ -220,8 +207,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * to avoid unexpected behavior.
 	 * 
 	 * @param region Integer region this child occupies.
-	 * @param size Number3D containing the length for each
-	 * side this node should be. 
+	 * side this node should be.
 	 */
 	protected void setChildRegion(int region, Vector3 side_lengths) {
 		mTransformedMin.setAll(mMin);
@@ -327,8 +313,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @return ArrayList of IGraphNodeMembers.
 	 */
 	protected ArrayList<IGraphNodeMember> getAllMembersRecursively(boolean shouldClear) {
-		ArrayList<IGraphNodeMember> members = new ArrayList<IGraphNodeMember>();
-		members.addAll(mMembers);
+        ArrayList<IGraphNodeMember> members = new ArrayList<>(mMembers);
 		if (mParent == null) {
 			members.addAll(mOutside);
 		}
@@ -400,7 +385,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 */
 	protected void split() {
 		//Keep a list of members we have removed
-		ArrayList<IGraphNodeMember> removed = new ArrayList<IGraphNodeMember>();
+		ArrayList<IGraphNodeMember> removed = new ArrayList<>();
 		for (int i = 0; i < mMembers.size(); ++i) {
 			int fits_in_child = -1;
 			IGraphNodeMember member = mMembers.get(i);
@@ -463,20 +448,18 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 		int members_count = members.size();
 		for (int i = 0; i < members_count; ++i) {
 			IBoundingVolume volume = members.get(i).getTransformedBoundingVolume();
-			Vector3 test_against_min = null;
-			Vector3 test_against_max = null;
+			Vector3 test_against_min;
+			Vector3 test_against_max;
 			if (volume == null) {
 				ATransformable3D object = (ATransformable3D) members.get(i);
 				test_against_min = object.getPosition();
 				test_against_max = test_against_min;
 			} else {
-				if (volume instanceof BoundingBox) {
-					BoundingBox bb = (BoundingBox) volume;
-					test_against_min = bb.getTransformedMin();
+				if (volume instanceof BoundingBox bb) {
+                    test_against_min = bb.getTransformedMin();
 					test_against_max = bb.getTransformedMax();
-				} else if (volume instanceof BoundingSphere) {
-					BoundingSphere bs = (BoundingSphere) volume;
-					Vector3 bs_position = bs.getPosition();
+				} else if (volume instanceof BoundingSphere bs) {
+                    Vector3 bs_position = bs.getPosition();
 					double radius = bs.getScaledRadius();
 					Vector3 rad = new Vector3();
 					rad.setAll(radius, radius, radius);
@@ -834,9 +817,8 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @see rajawali.scenegraph.IGraphNode#contains(rajawali.bounds.IBoundingVolume)
 	 */
 	public boolean contains(IBoundingVolume boundingVolume) {
-		if(!(boundingVolume instanceof BoundingBox)) return false;
-		BoundingBox boundingBox = (BoundingBox)boundingVolume;
-		Vector3 otherMin = boundingBox.getTransformedMin();
+		if(!(boundingVolume instanceof BoundingBox boundingBox)) return false;
+        Vector3 otherMin = boundingBox.getTransformedMin();
 		Vector3 otherMax = boundingBox.getTransformedMax();
 		Vector3 min = mTransformedMin;
 		Vector3 max = mTransformedMax;		
@@ -851,9 +833,8 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 	 * @see rajawali.scenegraph.IGraphNode#isContainedBy(rajawali.bounds.IBoundingVolume)
 	 */
 	public boolean isContainedBy(IBoundingVolume boundingVolume) {
-		if(!(boundingVolume instanceof BoundingBox)) return false;
-		BoundingBox boundingBox = (BoundingBox)boundingVolume;
-		Vector3 otherMin = boundingBox.getTransformedMin();
+		if(!(boundingVolume instanceof BoundingBox boundingBox)) return false;
+        Vector3 otherMin = boundingBox.getTransformedMin();
 		Vector3 otherMax = boundingBox.getTransformedMax();
 		Vector3 min = mTransformedMin;
 		Vector3 max = mTransformedMax;		
@@ -863,7 +844,7 @@ public abstract class A_nAABBTree extends BoundingBox implements IGraphNode {
 				(max.z <= otherMax.z) && (min.z >= otherMin.z);
 	}
 
-	@Override
+    @Override
 	public String toString() {
 		String str = "A_nAABBTree: " + mChildRegion + " member/outside count: " + mMembers.size() + "/";
 		if (mParent == null) {
