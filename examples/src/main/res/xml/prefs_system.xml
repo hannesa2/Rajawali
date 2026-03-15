@@ -2,8 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="preference_BRAND"
-        android:title="Brand" />
+        android:key="preference_APPVERSION"
+        android:title="App version" />
 
     <Preference
         android:key="preference_CPU_ABI"
@@ -30,7 +30,7 @@
         android:title="Board" />
 
     <Preference
-        android:key="preference_APPVERSION"
-        android:title="App version" />
+        android:key="preference_BRAND"
+        android:title="Brand" />
 
 </PreferenceScreen>
