@@ -1,6 +1,7 @@
 package org.rajawali3d.examples
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -69,9 +70,9 @@ class LauncherSmokeTest : BaseExampleTest() {
             .check(matches(isDisplayed()))
             .perform(click())
         //  Intents.intended(hasComponent(ExamplesActivity::class.java.name))
-
+        Thread.sleep(300)
         if (itemIndex != 34) {
-            onView(isRoot())
+            onView(withId(R.id.rajwali_surface))
                 .captureToBitmap()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
         }
