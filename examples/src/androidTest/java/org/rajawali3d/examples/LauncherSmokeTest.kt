@@ -1,15 +1,18 @@
 package org.rajawali3d.examples
 
+import android.graphics.Bitmap
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.captureToBitmap
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.screenshot.captureToBitmap
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import info.hannes.timber.DebugFormatTree
 import org.junit.After
@@ -43,13 +46,11 @@ class LauncherSmokeTest : BaseExampleTest() {
     fun smokeTestSimplyStart() {
         Thread.sleep(300)
         onView(isRoot())
-            .captureToBitmap()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A")
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A") })
 
         onView(withId(R.id.recycler)).check(matches(isDisplayed()))
         onView(isRoot())
-            .captureToBitmap()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-R")
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-R") })
 
         var overallIndex = 0
         ExamplesDataSet.instance?.categories?.forEach {
@@ -72,8 +73,7 @@ class LauncherSmokeTest : BaseExampleTest() {
 
         if (itemIndex != 34) {
             onView(isRoot())
-                .captureToBitmap()
-                .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
+                .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex") })
         }
         Espresso.pressBack()
     }

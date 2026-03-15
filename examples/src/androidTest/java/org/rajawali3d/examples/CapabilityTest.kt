@@ -1,12 +1,13 @@
 package org.rajawali3d.examples
 
+import android.graphics.Bitmap
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.captureToBitmap
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.screenshot.captureToBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
@@ -25,8 +26,7 @@ class CapabilityTest : BaseExampleTest() {
         onView(withId(R.id.action_info)).perform(click())
 
         onView(isRoot())
-            .captureToBitmap()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-before")
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-before") })
         Espresso.pressBack()
 
         clickOnExample(2)
@@ -34,8 +34,7 @@ class CapabilityTest : BaseExampleTest() {
         onView(withId(R.id.recycler)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.action_info)).perform(click())
         onView(isRoot())
-            .captureToBitmap()
-            .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-after")
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-after") })
         Espresso.pressBack()
     }
 }
