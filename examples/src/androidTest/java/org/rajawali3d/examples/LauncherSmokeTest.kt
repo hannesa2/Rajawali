@@ -1,6 +1,7 @@
 package org.rajawali3d.examples
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -71,8 +72,7 @@ class LauncherSmokeTest : BaseExampleTest() {
         //  Intents.intended(hasComponent(ExamplesActivity::class.java.name))
 
         if (itemIndex != 34) {
-            onView(isRoot())
-                .captureToBitmap()
+            takeScreenshot()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-A$itemIndex")
         }
         Espresso.pressBack()
