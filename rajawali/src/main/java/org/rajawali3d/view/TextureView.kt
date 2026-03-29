@@ -55,11 +55,48 @@ open class TextureView @JvmOverloads constructor(
     private var eglConfigChooser: IRajawaliEglConfigChooser? = null
     private var eglContextFactory: GLSurfaceView.EGLContextFactory? = null
     private var eglWindowSurfaceFactory: GLSurfaceView.EGLWindowSurfaceFactory? = null
-    private var eglContextClientVersion: Int = 0
 
     /**
-     * @return true if the EGL context will be preserved when paused
+     * Inform the default EGLContextFactory and default EGLConfigChooser
+     * which EGLContext client version to pick.
+     *
+     * Use this method to create an OpenGL ES 2.0-compatible context.
+     * Example:
+     * <pre class="prettyprint">
+     * public MyView(Context context) {
+     * super(context);
+     * setEGLContextClientVersion(2); // Pick an OpenGL ES 2.0 context.
+     * setRenderer(new MyRenderer());
+     * }
+    </pre> *
+     *
+     * Note: Activities which require OpenGL ES 2.0 should indicate this by
+     * setting @lt;uses-feature android:glEsVersion="0x00020000" /> in the activity's
+     * AndroidManifest.xml file.
+     *
+     * If this method is called, it must be called before [.setSurfaceRenderer]
+     * is called.
+     *
+     * This method only affects the behavior of the default EGLContexFactory and the
+     * default EGLConfigChooser. If
+     * [.setEGLContextFactory] has been called, then the supplied
+     * EGLContextFactory is responsible for creating an OpenGL ES 2.0-compatible context.
+     * If
+     * [.setEGLConfigChooser] has been called, then the supplied
+     * EGLConfigChooser is responsible for choosing an OpenGL ES 2.0-compatible config.
      */
+    var eglContextClientVersionMajor: Int = 0
+        private set(value) {
+            checkRenderThreadState()
+            field = value
+        }
+
+    var eglContextClientVersionMinor: Int = 0
+        private set(value) {
+            checkRenderThreadState()
+            field = value
+        }
+
     /**
      * Control whether the EGL context is preserved when the TextureView is paused and
      * resumed.
@@ -125,12 +162,14 @@ open class TextureView @JvmOverloads constructor(
     }
 
     private fun initialize() {
-        val glesMajorVersion = Capabilities.gLESMajorVersion
-        setEGLContextClientVersion(glesMajorVersion)
+        val glMajorVersion = Capabilities.eGLMajorVersion
+        val glVersionMinor = Capabilities.eGLMinorVersion
+        eglContextClientVersionMajor = glMajorVersion
+        eglContextClientVersionMinor = glVersionMinor
 
         setEGLConfigChooser(
             RajawaliEGLConfigChooser(
-                glesMajorVersion, antiAliasingConfig, multiSampleCount,
+                glMajorVersion, antiAliasingConfig, multiSampleCount,
                 bitsRed, bitsGreen, bitsBlue, bitsAlpha, bitsDepth
             )
         )
@@ -366,42 +405,6 @@ open class TextureView @JvmOverloads constructor(
     }
 
     /**
-     * Inform the default EGLContextFactory and default EGLConfigChooser
-     * which EGLContext client version to pick.
-     *
-     * Use this method to create an OpenGL ES 2.0-compatible context.
-     * Example:
-     * <pre class="prettyprint">
-     * public MyView(Context context) {
-     * super(context);
-     * setEGLContextClientVersion(2); // Pick an OpenGL ES 2.0 context.
-     * setRenderer(new MyRenderer());
-     * }
-    </pre> *
-     *
-     * Note: Activities which require OpenGL ES 2.0 should indicate this by
-     * setting @lt;uses-feature android:glEsVersion="0x00020000" /> in the activity's
-     * AndroidManifest.xml file.
-     *
-     * If this method is called, it must be called before [.setSurfaceRenderer]
-     * is called.
-     *
-     * This method only affects the behavior of the default EGLContexFactory and the
-     * default EGLConfigChooser. If
-     * [.setEGLContextFactory] has been called, then the supplied
-     * EGLContextFactory is responsible for creating an OpenGL ES 2.0-compatible context.
-     * If
-     * [.setEGLConfigChooser] has been called, then the supplied
-     * EGLConfigChooser is responsible for choosing an OpenGL ES 2.0-compatible config.
-     *
-     * @param version The EGLContext client version to choose. Use 2 for OpenGL ES 2.0
-     */
-    open fun setEGLContextClientVersion(version: Int) {
-        checkRenderThreadState()
-        eglContextClientVersion = version
-    }
-
-    /**
      * Inform the view that the activity is paused. The owner of this view must
      * call this method when the activity is paused. Calling this method will
      * pause the rendering thread.
@@ -473,14 +476,14 @@ open class TextureView @JvmOverloads constructor(
         override fun createContext(egl: EGL10, display: EGLDisplay, config: EGLConfig): EGLContext {
             return intArrayOf(
                 EGL_CONTEXT_CLIENT_VERSION,
-                textureView.eglContextClientVersion,
+                textureView.eglContextClientVersionMajor,
                 EGL10.EGL_NONE
             ).let { attributeList ->
                 egl.eglCreateContext(
                     display,
                     config,
                     EGL10.EGL_NO_CONTEXT,
-                    if (textureView.eglContextClientVersion != 0) attributeList else null
+                    if (textureView.eglContextClientVersionMajor != 0) attributeList else null
                 )
             }
         }
@@ -562,7 +565,7 @@ open class TextureView @JvmOverloads constructor(
         internal abstract fun chooseConfig(egl: EGL10, display: EGLDisplay, configs: Array<EGLConfig>): EGLConfig?
 
         private fun filterConfigSpec(configSpec: IntArray): IntArray {
-            if (textureView.eglContextClientVersion != 2 && textureView.eglContextClientVersion != 3) {
+            if (textureView.eglContextClientVersionMajor != 2 && textureView.eglContextClientVersionMajor != 3) {
                 return configSpec
             }
             /* We know none of the subclasses define EGL_RENDERABLE_TYPE.
@@ -573,7 +576,7 @@ open class TextureView @JvmOverloads constructor(
             System.arraycopy(configSpec, 0, newConfigSpec, 0, len - 1)
             newConfigSpec[len - 1] = EGL10.EGL_RENDERABLE_TYPE
             newConfigSpec[len] = when {
-                textureView.eglContextClientVersion == 2 -> RajawaliEGLConfigChooser.EGL_OPENGL_ES2_BIT
+                textureView.eglContextClientVersionMajor == 2 -> RajawaliEGLConfigChooser.EGL_OPENGL_ES2_BIT
                 else -> RajawaliEGLConfigChooser.EGL_OPENGL_ES3_BIT_KHR
             }
             newConfigSpec[len + 1] = EGL10.EGL_NONE
