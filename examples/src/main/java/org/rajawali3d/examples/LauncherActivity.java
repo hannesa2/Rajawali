@@ -53,12 +53,12 @@ public class LauncherActivity extends AppCompatActivity {
         if (requestCode == REQUEST_PERMISSIONS) {
             if (hasAllPermissions(PERMISSIONS)) {
                 Timber.d("All permissions granted!");
-            } else {
-                Toast.makeText(
-                        this,
-                        "Cannot continue running Rajawali Examples without all required permissions.",
-                        Toast.LENGTH_SHORT
-                ).show();
+                } else {
+                    Toast.makeText(
+                            this,
+                            "Cannot continue running Rajawali Examples without all required permissions.",
+                            Toast.LENGTH_SHORT
+                    ).show();
 
                 finish();
             }

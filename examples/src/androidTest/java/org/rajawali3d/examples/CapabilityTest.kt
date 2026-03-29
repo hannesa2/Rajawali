@@ -1,5 +1,6 @@
 package org.rajawali3d.examples
 
+import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -12,6 +13,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
+import org.rajawali3d.examples.data.ExamplesDataSet
 
 @RunWith(AndroidJUnit4::class)
 class CapabilityTest : BaseExampleTest() {
@@ -24,8 +26,7 @@ class CapabilityTest : BaseExampleTest() {
         onView(withId(R.id.recycler)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.action_info)).perform(click())
 
-        onView(isRoot())
-            .captureToBitmap()
+        takeScreenshot()
             .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-before")
         Espresso.pressBack()
 
@@ -33,8 +34,7 @@ class CapabilityTest : BaseExampleTest() {
 
         onView(withId(R.id.recycler)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.action_info)).perform(click())
-        onView(isRoot())
-            .captureToBitmap()
+        takeScreenshot()
             .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-after")
         Espresso.pressBack()
     }

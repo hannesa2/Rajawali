@@ -1525,7 +1525,8 @@ open class TextureView @JvmOverloads constructor(
                     multipleGLESContextsAllowed = true
                 }
                 if (LOG_SURFACE) {
-                    Timber.w("glesVersion=$glesVersion multipleGLESContextsAllowed=$multipleGLESContextsAllowed")
+                    Timber.i("GLES Version=$glesVersion multipleGLESContextsAllowed=$multipleGLESContextsAllowed")
+                    Timber.i("GLES Info=${Capabilities.instance}")
                 }
                 glesVersionCheckComplete = true
             }
